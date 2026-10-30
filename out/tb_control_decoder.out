@@ -1,0 +1,29 @@
+========================================================
+  EE577B Phase 2: Control Decoder Unit Verification Log 
+========================================================
+
+[TEST 1] Testing R-type VADD Instruction...
+PASS: VADD correctly decoded (alu_op=6, mask=8'hFF).
+
+[TEST 2] Verifying PPP & WW Byte Masks...
+PASS: All PPP & WW masking cases validated successfully.
+
+[TEST 3] Testing SFU Operations...
+PASS: VDIV properly flagged for SFU.
+PASS: VSQRT properly flagged for SFU.
+
+[TEST 4] Testing M-type Memory Instructions...
+PASS: VLD correctly decoded.
+PASS: VSD correctly decoded.
+
+[TEST 5] Testing Branch Instructions...
+PASS: VBEZ correctly decoded.
+PASS: VBNEZ correctly decoded.
+
+[TEST 6] Testing VNOP and Illegal Instructions...
+PASS: VNOP correctly decoded.
+PASS: Illegal instruction safely marked as NOP.
+
+========================================================
+TEST RESULT: ALL TESTS PASSED SUCCESSFULLY
+========================================================
