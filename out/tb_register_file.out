@@ -1,0 +1,20 @@
+========================================================
+  EE577B Phase 2: Register File Unit Verification Log   
+========================================================
+
+[TEST 1] Testing Synchronous Reset...
+PASS: Synchronous Reset successfully zeroed all 32 registers.
+
+[TEST 2] Verifying Register r0 Write Immunity...
+PASS: Register r0 remained hardwired to 64'h0.
+
+[TEST 3] Multi-Port Full 64-bit Write & Asynchronous Dual Read...
+PASS: Dual asynchronous read ports verified.
+
+[TEST 4] Byte-Masked Selective Writeback Verification...
+PASS: Selective byte writeback (0xAA mask) passed.
+PASS: Selective writeback (0x0F mask) passed.
+
+========================================================
+TEST RESULT: ALL TESTS PASSED SUCCESSFULLY
+========================================================
