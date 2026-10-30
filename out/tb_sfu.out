@@ -1,0 +1,23 @@
+========================================================
+       EE577B Phase 2: SFU Unit Verification Log        
+========================================================
+
+[TEST 1] Testing VDIV across WW modes...
+PASS: VDIV (WW=00, 8-bit) passed.
+PASS: VDIV (WW=01, 16-bit) passed.
+PASS: VDIV (WW=10, 32-bit) passed.
+PASS: VDIV (WW=11, 64-bit) passed.
+
+[TEST 2] Testing VMOD across WW modes...
+PASS: VMOD (WW=00, 8-bit) passed.
+PASS: VMOD (WW=01, 16-bit) passed.
+
+[TEST 3] Testing VSQRT across WW modes...
+PASS: VSQRT (WW=00, 8-bit) passed.
+PASS: VSQRT (WW=01, 16-bit) passed.
+PASS: VSQRT (WW=10, 32-bit) passed.
+PASS: VSQRT (WW=11, 64-bit) passed.
+
+========================================================
+TEST RESULT: ALL TESTS PASSED SUCCESSFULLY
+========================================================
