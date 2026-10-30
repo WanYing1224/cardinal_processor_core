@@ -8,8 +8,6 @@
 *.psm
 *.bak
 *.cmp
-*.jpg
-*.html
 *.bsf
 
 # ignore simulation output of ModelSim
@@ -21,3 +19,32 @@ cov*/
 transcript*
 sc_dpiheader.h
 vsim.dbg
+
+# Cadence / NC-Sim / Xcelium simulation files
+INCA_libs/
+ncsim.*
+ncvlog.*
+ncelab.*
+*.log
+*.history
+*.key
+waves.shm/
+xcelium.d/
+.simvision/
+
+# Editor and OS junk
+.DS_Store
+Thumbs.db
+*.dump
+!expected_dmem.dump
+*.bak
+*.swp
+*~
+*.svf
+Phase_2_Group_13/
+*.zip
+*.tar
+Phase2_for_student/
+
+# TA Provided files
+*.csh
