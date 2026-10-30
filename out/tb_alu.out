@@ -1,0 +1,29 @@
+========================================================
+       EE577B Phase 2: ALU Unit Verification Log        
+========================================================
+
+[TEST 1] Testing Bitwise Operations...
+PASS: Bitwise operations passed.
+
+[TEST 2] Testing VADD Across WW Modes...
+PASS: VADD passed across all 4 word widths.
+
+[TEST 3] Testing VSUB Across WW Modes...
+PASS: VSUB passed.
+
+[TEST 4] Testing VMULEU and VMULOU...
+PASS: VMULEU (Even Multiply) passed.
+PASS: VMULOU (Odd Multiply) passed.
+
+[TEST 5] Testing Squaring...
+PASS: VSQEU passed.
+
+[TEST 6] Testing Shifts (VSLL, VSRL, VSRA)...
+PASS: Shifts (VSLL, VSRL, VSRA) passed.
+
+[TEST 7] Testing Rotate By Half (VRTTH)...
+PASS: VRTTH (Rotate by Half) passed.
+
+========================================================
+TEST RESULT: ALL TESTS PASSED SUCCESSFULLY
+========================================================
