@@ -3,6 +3,7 @@
 // Description: Top-Level 64-bit 4-Stage Pipelined Cardinal Processor Core
 //              - Stages: IF, ID, EX/MEM, WB
 //              - Synchronous active-high reset
+//              - Integrated Hazard Management Unit (Flushes & Stalls)
 //              - Immediate-address Memory Interface (asynch IMEM, synch DMEM)
 //              - Big-Endian indexing convention [0:31] and [0:63]
 ////////////////////////////////////////////////////////////////////////////
@@ -20,46 +21,12 @@ module cardinal_cpu (
 );
 
 // =====================================================================
-// IF Stage
+// Forward Declarations & Inter-Stage Wires
 // =====================================================================
-reg [0:31] pc;
-wire [0:31] next_pc;
 wire        branch_taken;
 wire [0:31] branch_target;
 
-assign pc_out = pc;
-
-// Sequential PC update: branch target if taken, otherwise increment by 4
-assign next_pc = branch_taken ? branch_target : (pc + 32'd4);
-
-always @(posedge clk) begin
-    if (reset) begin
-        pc <= 32'h0000_0000;
-    end else begin
-        pc <= next_pc;
-    end
-end
-
-// =====================================================================
-// IF / ID Pipeline Register
-// =====================================================================
-reg [0:31] if_id_instr;
-reg [0:31] if_id_pc;
-
-always @(posedge clk) begin
-    if (reset || branch_taken) begin
-        // Flush to bubble (VNOP: opcode 6'b111100)
-        if_id_instr <= 32'hF000_0000;
-        if_id_pc    <= 32'h0000_0000;
-    end else begin
-        if_id_instr <= inst_in;
-        if_id_pc    <= pc;
-    end
-end
-
-// =====================================================================
-// ID Stage
-// =====================================================================
+// ID Stage Decoded Signals
 wire [0:4]  id_rD_addr;
 wire [0:4]  id_rA_addr;
 wire [0:4]  id_rB_addr;
@@ -84,6 +51,95 @@ wire        id_rA_used;
 wire        id_rB_used;
 wire        id_rD_as_src;
 
+// ID/EX Pipeline Registers
+reg        id_ex_rf_wr_en;
+reg [0:7]  id_ex_rf_byte_wr_en;
+reg        id_ex_dmem_read;
+reg        id_ex_dmem_write;
+reg        id_ex_wb_src_sel;
+reg        id_ex_alu_or_sfu_sel;
+reg [0:4]  id_ex_alu_op;
+reg [0:1]  id_ex_ww;
+reg [0:4]  id_ex_rD_addr;
+reg [0:15] id_ex_imm;
+reg [0:63] id_ex_rA_data;
+reg [0:63] id_ex_rB_data;
+reg [0:63] id_ex_store_data;
+
+// EX/WB Pipeline Registers
+reg        ex_wb_rf_wr_en;
+reg [0:7]  ex_wb_rf_byte_wr_en;
+reg        ex_wb_wb_src_sel;
+reg [0:4]  ex_wb_rD_addr;
+reg [0:63] ex_wb_calc_result;
+
+// Hazard Control Signals
+wire stall_pc;
+wire stall_if_id;
+wire flush_if_id;
+wire bubble_id_ex;
+
+// =====================================================================
+// Hazard Detection Unit Instantiation
+// =====================================================================
+hazard_unit u_hazard (
+    .id_rA_addr      (id_rA_addr),
+    .id_rB_addr      (id_rB_addr),
+    .id_rD_addr      (id_rD_addr),
+    .id_rA_used      (id_rA_used),
+    .id_rB_used      (id_rB_used),
+    .id_rD_as_src    (id_rD_as_src),
+    .branch_taken    (branch_taken),
+    .id_ex_rD_addr   (id_ex_rD_addr),
+    .id_ex_rf_wr_en  (id_ex_rf_wr_en),
+    .id_ex_dmem_read (id_ex_dmem_read),
+    .ex_wb_rD_addr   (ex_wb_rD_addr),
+    .ex_wb_rf_wr_en  (ex_wb_rf_wr_en),
+    .stall_pc        (stall_pc),
+    .stall_if_id     (stall_if_id),
+    .flush_if_id     (flush_if_id),
+    .bubble_id_ex    (bubble_id_ex)
+);
+
+// =====================================================================
+// IF Stage
+// =====================================================================
+reg [0:31] pc;
+wire [0:31] next_pc;
+
+assign pc_out = pc;
+
+// Branch takes precedence over normal increment
+assign next_pc = branch_taken ? branch_target : (pc + 32'd4);
+
+always @(posedge clk) begin
+    if (reset) begin
+        pc <= 32'h0000_0000;
+    end else if (!stall_pc) begin
+        pc <= next_pc;
+    end
+end
+
+// =====================================================================
+// IF / ID Pipeline Register
+// =====================================================================
+reg [0:31] if_id_instr;
+reg [0:31] if_id_pc;
+
+always @(posedge clk) begin
+    if (reset || flush_if_id) begin
+        // Flush to bubble (VNOP: opcode 6'b111100)
+        if_id_instr <= 32'hF000_0000;
+        if_id_pc    <= 32'h0000_0000;
+    end else if (!stall_if_id) begin
+        if_id_instr <= inst_in;
+        if_id_pc    <= pc;
+    end
+end
+
+// =====================================================================
+// ID Stage
+// =====================================================================
 control_decoder u_decoder (
     .instr          (if_id_instr),
     .rD_addr        (id_rD_addr),
@@ -111,12 +167,10 @@ control_decoder u_decoder (
 );
 
 // Register File Connections
-// Port 0 reads rA; Port 1 reads rD for store/branch, or rB for binary ALU ops
 wire [0:4]  rf_rd_addr1 = id_rD_as_src ? id_rD_addr : id_rB_addr;
 wire [0:63] rf_rd_data0;
 wire [0:63] rf_rd_data1;
 
-// Writeback wires from WB stage
 wire        wb_rf_wr_en;
 wire [0:4]  wb_rf_wr_addr;
 wire [0:63] wb_rf_wr_data;
@@ -136,7 +190,6 @@ register_file u_regfile (
 );
 
 // Early Branch Resolution (evaluated directly in ID)
-// For branch, Port 1 contains the condition register (rD)
 wire branch_cond_met = (id_branch_type == 1'b0) ? (rf_rd_data1 == 64'd0) : (rf_rd_data1 != 64'd0);
 assign branch_taken  = id_is_branch && branch_cond_met;
 assign branch_target = {16'h0000, id_imm};
@@ -144,22 +197,8 @@ assign branch_target = {16'h0000, id_imm};
 // =====================================================================
 // ID / EX Pipeline Register
 // =====================================================================
-reg        id_ex_rf_wr_en;
-reg [0:7]  id_ex_rf_byte_wr_en;
-reg        id_ex_dmem_read;
-reg        id_ex_dmem_write;
-reg        id_ex_wb_src_sel;
-reg        id_ex_alu_or_sfu_sel;
-reg [0:4]  id_ex_alu_op;
-reg [0:1]  id_ex_ww;
-reg [0:4]  id_ex_rD_addr;
-reg [0:15] id_ex_imm;
-reg [0:63] id_ex_rA_data;
-reg [0:63] id_ex_rB_data;
-reg [0:63] id_ex_store_data;
-
 always @(posedge clk) begin
-    if (reset) begin
+    if (reset || bubble_id_ex) begin
         id_ex_rf_wr_en       <= 1'b0;
         id_ex_rf_byte_wr_en  <= 8'h00;
         id_ex_dmem_read      <= 1'b0;
@@ -186,12 +225,12 @@ always @(posedge clk) begin
         id_ex_imm            <= id_imm;
         id_ex_rA_data        <= rf_rd_data0;
         id_ex_rB_data        <= rf_rd_data1;
-        id_ex_store_data     <= rf_rd_data1; // Captured when rD_as_src was active
+        id_ex_store_data     <= rf_rd_data1;
     end
 end
 
 // =====================================================================
-// EX/MEM Stage
+// EX / MEM Access Stage
 // =====================================================================
 wire [0:63] ex_alu_out;
 wire [0:63] ex_sfu_out;
@@ -214,7 +253,7 @@ sfu u_sfu (
 
 wire [0:63] ex_calc_result = id_ex_alu_or_sfu_sel ? ex_sfu_out : ex_alu_out;
 
-// Data Memory interface outputs (word address zero-extended)
+// Memory output drivers
 assign addr_out = {16'h0000, id_ex_imm};
 assign d_out    = id_ex_store_data;
 assign memEn    = id_ex_dmem_read | id_ex_dmem_write;
@@ -223,12 +262,6 @@ assign memWrEn  = id_ex_dmem_write;
 // =====================================================================
 // EX / WB Pipeline Register
 // =====================================================================
-reg        ex_wb_rf_wr_en;
-reg [0:7]  ex_wb_rf_byte_wr_en;
-reg        ex_wb_wb_src_sel;
-reg [0:4]  ex_wb_rD_addr;
-reg [0:63] ex_wb_calc_result;
-
 always @(posedge clk) begin
     if (reset) begin
         ex_wb_rf_wr_en      <= 1'b0;
@@ -251,7 +284,6 @@ end
 assign wb_rf_wr_en      = ex_wb_rf_wr_en;
 assign wb_rf_wr_addr    = ex_wb_rD_addr;
 assign wb_rf_byte_wr_en = ex_wb_rf_byte_wr_en;
-// wb_src_sel: 0 = ALU/SFU computation result, 1 = Data Memory read data (d_in)
 assign wb_rf_wr_data    = ex_wb_wb_src_sel ? d_in : ex_wb_calc_result;
 
 endmodule
