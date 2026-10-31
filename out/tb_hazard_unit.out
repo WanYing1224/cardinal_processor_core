@@ -1,0 +1,25 @@
+========================================================
+   EE577B Phase 2: Hazard Unit Verification Log         
+========================================================
+
+[TEST 1] Testing Normal Flow (No Hazards)...
+PASS: Normal pipeline flow operates without stalls.
+
+[TEST 2] Testing RAW Hazard against EX (rA match)...
+PASS: EX stage RAW hazard on rA properly triggered stall and bubble.
+
+[TEST 3] Testing RAW Hazard against EX (rB match)...
+PASS: EX stage RAW hazard on rB properly stalled.
+
+[TEST 4] Testing RAW Hazard against WB Stage...
+PASS: WB stage RAW hazard properly stalled.
+
+[TEST 5] Testing r0 Immunity (No Stalls on r0)...
+PASS: Register r0 is immune to stalls.
+
+[TEST 6] Testing Branch Flush Priority...
+PASS: Branch taken successfully flushes IF/ID without stalling.
+
+========================================================
+TEST RESULT: ALL TESTS PASSED SUCCESSFULLY
+========================================================
