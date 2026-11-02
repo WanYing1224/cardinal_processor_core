@@ -1,0 +1,71 @@
+ncverilog(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+file: tb/tb_cardinal_cpu.v
+	module worklib.dmem:v
+		errors: 0, warnings: 0
+	module worklib.imem:v
+		errors: 0, warnings: 0
+	module worklib.tb_cardinal_cpu:v
+		errors: 0, warnings: 0
+file: design/alu.v
+	module worklib.alu:v
+		errors: 0, warnings: 0
+file: design/cardinal_cpu.v
+	module worklib.cardinal_cpu:v
+		errors: 0, warnings: 0
+file: design/control_decoder.v
+	module worklib.control_decoder:v
+		errors: 0, warnings: 0
+file: design/hazard_unit.v
+	module worklib.hazard_unit:v
+		errors: 0, warnings: 0
+file: design/register_file.v
+	module worklib.register_file:v
+		errors: 0, warnings: 0
+file: design/sfu.v
+	module worklib.sfu:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.alu:v <0x1e384a41>
+			streams:  16, words: 43266
+		worklib.cardinal_cpu:v <0x53d0eebf>
+			streams:  37, words: 12876
+		worklib.control_decoder:v <0x1f1b17c9>
+			streams:   3, words: 14478
+		worklib.dmem:v <0x4b6842da>
+			streams:   5, words:  2190
+		worklib.hazard_unit:v <0x459529e6>
+			streams:   3, words:  2222
+		worklib.imem:v <0x6d01622a>
+			streams:   1, words:   191
+		worklib.register_file:v <0x1ce8e6cc>
+			streams:  12, words: 17335
+		worklib.sfu:v <0x5e1e11e3>
+			streams:   2, words: 23946
+		worklib.tb_cardinal_cpu:v <0x123f2de7>
+			streams:   8, words: 18551
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                  Instances  Unique
+		Modules:                  9       9
+		Registers:               75      75
+		Scalar wires:            30       -
+		Vectored wires:          54       -
+		Always blocks:           14      14
+		Initial blocks:           1       1
+		Cont. assignments:       30      34
+		Pseudo assignments:      14      14
+		Simulation timescale:  10ps
+	Writing initial simulation snapshot: worklib.tb_cardinal_cpu:v
+Loading snapshot worklib.tb_cardinal_cpu:v .................... Done
+ncsim> source /tools/cadence/INCISIVE152/tools/inca/files/ncsimrc
+ncsim> run
+The program completed in 28 cycles
+Data memory dumped to dmem.dump
+TEST PASSED: all 128 memory locations match expected_dmem.dump
+Simulation complete via $finish(1) at time 152 NS + 0
+./tb/tb_cardinal_cpu.v:179 	$finish;
+ncsim> exit
