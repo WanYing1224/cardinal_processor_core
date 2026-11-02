@@ -1,0 +1,111 @@
+ncvlog(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+file: /tools/synopsys/syn/Y-2026.03/dw/sim_ver/DW_div.v
+	module work.DW_div
+		errors: 0, warnings: 0
+ncvlog: Memory Usage - 21.4M program + 20.4M data = 41.7M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 36.1% cpu)
+ncvlog(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+file: /tools/synopsys/syn/Y-2026.03/dw/sim_ver/DW_sqrt.v
+	module work.DW_sqrt
+		errors: 0, warnings: 0
+ncvlog: Memory Usage - 21.4M program + 20.3M data = 41.7M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 89.0% cpu)
+ncvlog(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+file: /tools/synopsys/syn/Y-2026.03/dw/sim_ver/DW02_mult.v
+	module work.DW02_mult
+		errors: 0, warnings: 0
+ncvlog: Memory Usage - 21.4M program + 20.3M data = 41.6M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 82.8% cpu)
+ncvlog(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+file: /tools/synopsys/syn/Y-2026.03/dw/sim_ver/DW01_addsub.v
+	module work.DW01_addsub
+		errors: 0, warnings: 0
+ncvlog: Memory Usage - 21.4M program + 20.3M data = 41.6M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 74.1% cpu)
+ncvlog -STATUS -MESSAGES -UPDATE -INCDIR ./include -INCDIR /tools/synopsys/syn/Y-2026.03/dw/sim_ver -work work ./design/alu.v ./design/cardinal_cpu.v ./design/control_decoder.v ./design/hazard_unit.v ./design/register_file.v ./design/sfu.v
+ncvlog(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+file: ./design/alu.v
+	module work.alu
+		errors: 0, warnings: 0
+file: ./design/cardinal_cpu.v
+	module work.cardinal_cpu
+		errors: 0, warnings: 0
+file: ./design/control_decoder.v
+	module work.control_decoder
+		errors: 0, warnings: 0
+file: ./design/hazard_unit.v
+	module work.hazard_unit
+		errors: 0, warnings: 0
+file: ./design/register_file.v
+	module work.register_file
+		errors: 0, warnings: 0
+file: ./design/sfu.v
+	module work.sfu
+		errors: 0, warnings: 0
+ncvlog: Memory Usage - 21.4M program + 20.4M data = 41.7M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 71.8% cpu)
+ncvlog -STATUS -MESSAGES -UPDATE -INCDIR ./include -INCDIR /tools/synopsys/syn/Y-2026.03/dw/sim_ver -work work ./tb/tb_cardinal_cpu.v
+ncvlog(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+file: ./tb/tb_cardinal_cpu.v
+	module work.dmem
+		errors: 0, warnings: 0
+	module work.imem
+		errors: 0, warnings: 0
+	module work.tb_cardinal_cpu
+		errors: 0, warnings: 0
+ncvlog: Memory Usage - 21.4M program + 20.7M data = 42.0M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 91.4% cpu)
+ncelab -ACCESS +rwc -NCFATAL INVSUP -NCFATAL CUNOTB -NCFATAL CUVMPW -NCFATAL CUVWSP -NCFATAL CUVWSI -ERRORMAX 5 -UPDATE -MESSAGES -TIMESCALE '1ns/10ps' work.tb_cardinal_cpu
+ncelab(64): 15.20-s086: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+	Elaborating the design hierarchy:
+		Caching library 'work' ....... Done
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		work.alu:module <0x55db468c>
+			streams:  16, words: 43266
+		work.cardinal_cpu:module <0x550b81dd>
+			streams:  37, words: 12876
+		work.control_decoder:module <0x247ff1a4>
+			streams:   3, words: 14478
+		work.dmem:module <0x4b6842da>
+			streams:   5, words:  2190
+		work.hazard_unit:module <0x75877706>
+			streams:   3, words:  2222
+		work.imem:module <0x6d01622a>
+			streams:   1, words:   191
+		work.register_file:module <0x2ec6d783>
+			streams:  12, words: 17335
+		work.sfu:module <0x375b58ec>
+			streams:   2, words: 23946
+		work.tb_cardinal_cpu:module <0x61000e9e>
+			streams:   8, words: 18551
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                  Instances  Unique
+		Modules:                  9       9
+		Registers:               75      75
+		Scalar wires:            30       -
+		Vectored wires:          54       -
+		Always blocks:           14      14
+		Initial blocks:           1       1
+		Cont. assignments:       30      34
+		Pseudo assignments:      14      14
+		Simulation timescale:  10ps
+	Writing initial simulation snapshot: work.tb_cardinal_cpu:module
+ncsim -STATUS -NOCOPYRIGHT -MESSAGES -NCFATAL INVSUP -NOWARN DLBRLK -TCL -NOLOG -NOKEY -INPUT ./scripts/runscript_nogui.tcl work.tb_cardinal_cpu +IMEM=tests/imem_hazard.fill +DMEM=tests/dmem_hazard.fill +DUMP=out/dmem_hazard.dump +EXPECTED=tests/expected_dmem_hazard.dump
+Loading snapshot work.tb_cardinal_cpu:module .................... Done
+ncsim> set tb $env(TOP);
+tb_cardinal_cpu
+ncsim> probe -create -shm $tb -all -depth all
+Created default SHM database ncsim.shm
+Created probe 1
+ncsim> run
+The program completed in 27 cycles
+Data memory dumped to out/dmem_hazard.dump
+TEST PASSED: all 128 memory locations match tests/expected_dmem_hazard.dump
+Simulation complete via $finish(1) at time 148 NS + 0
+./tb/tb_cardinal_cpu.v:179 	$finish;
+ncsim> exit
+ncsim: Memory Usage - 38.6M program + 262.2M data = 300.9M total (303.5M Peak)
+ncsim: CPU Usage - 0.0s system + 0.0s user = 0.1s total (12.2s, 0.4% cpu)
