@@ -36,6 +36,7 @@ xcelium.d/
 .DS_Store
 Thumbs.db
 *.dump
+!tests/*.dump
 !expected_dmem.dump
 *.bak
 *.swp
