@@ -1,0 +1,702 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'cardinal_cpu' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : cardinal_cpu
+Version: Y-2026.03
+Date   : Mon Nov  2 20:48:20 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: id_ex_rB_data_reg_26_
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ex_wb_calc_result_reg_61_
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  id_ex_rB_data_reg_26_/CLK (DFFSR)                       0.00 #     0.00 r
+  id_ex_rB_data_reg_26_/Q (DFFSR)                         0.13       0.13 f
+  u_sfu/rB_data[26] (sfu)                                 0.00       0.13 f
+  u_sfu/U21935/Y (INVX1)                                  0.09       0.22 r
+  u_sfu/div_81_u_div_u_add_B6/B[38] (sfu_DW01_add_1092)
+                                                          0.00       0.22 r
+  u_sfu/div_81_u_div_u_add_B6/U403/Y (NOR2X1)             0.05       0.27 f
+  u_sfu/div_81_u_div_u_add_B6/U389/Y (NOR2X1)             0.03       0.30 r
+  u_sfu/div_81_u_div_u_add_B6/U363/Y (NAND2X1)            0.02       0.32 f
+  u_sfu/div_81_u_div_u_add_B6/U979/Y (OAI21X1)            0.05       0.37 r
+  u_sfu/div_81_u_div_u_add_B6/U248/Y (AOI21X1)            0.03       0.40 f
+  u_sfu/div_81_u_div_u_add_B6/U1002/Y (INVX1)             0.02       0.41 r
+  u_sfu/div_81_u_div_u_add_B6/U970/Y (INVX1)              0.02       0.44 f
+  u_sfu/div_81_u_div_u_add_B6/U134/Y (OAI21X1)            0.04       0.48 r
+  u_sfu/div_81_u_div_u_add_B6/U132/Y (AOI21X1)            0.03       0.51 f
+  u_sfu/div_81_u_div_u_add_B6/U863/Y (XNOR2X1)            0.04       0.55 r
+  u_sfu/div_81_u_div_u_add_B6/SUM[58] (sfu_DW01_add_1092)
+                                                          0.00       0.55 r
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/B[58] (sfu_DW01_add_1410)
+                                                          0.00       0.55 r
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/U49/Y (NAND2X1)
+                                                          0.02       0.57 f
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/U48/Y (NOR2X1)
+                                                          0.03       0.60 r
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/U47/Y (NAND2X1)
+                                                          0.02       0.62 f
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/U400/Y (NOR2X1)
+                                                          0.03       0.65 r
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/U398/Y (NAND2X1)
+                                                          0.02       0.67 f
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/U3/Y (NOR2X1)     0.03       0.70 r
+  u_sfu/div_81_u_div_u_add_PartRem_20_6/CO (sfu_DW01_add_1410)
+                                                          0.00       0.70 r
+  u_sfu/U13131/Y (AND2X2)                                 0.04       0.74 r
+  u_sfu/U3703/Y (INVX1)                                   0.02       0.76 f
+  u_sfu/U9031/Y (NAND2X1)                                 0.01       0.77 r
+  u_sfu/U11255/Y (AND2X2)                                 0.04       0.81 r
+  u_sfu/U13315/Y (INVX4)                                  0.03       0.84 f
+  u_sfu/U29796/Y (OR2X2)                                  0.05       0.89 f
+  u_sfu/U29797/Y (OAI21X1)                                0.02       0.90 r
+  u_sfu/U12603/Y (OR2X2)                                  0.05       0.96 r
+  u_sfu/U3872/Y (INVX2)                                   0.03       0.98 f
+  u_sfu/U29839/Y (MUX2X1)                                 0.04       1.03 f
+  u_sfu/U4306/Y (INVX2)                                   0.04       1.07 r
+  u_sfu/div_81_u_div_u_add_PartRem_19_7/A[4] (sfu_DW01_add_1212)
+                                                          0.00       1.07 r
+  u_sfu/div_81_u_div_u_add_PartRem_19_7/U356/Y (NOR2X1)
+                                                          0.03       1.10 f
+  u_sfu/div_81_u_div_u_add_PartRem_19_7/U346/Y (NOR2X1)
+                                                          0.05       1.15 r
+  u_sfu/div_81_u_div_u_add_PartRem_19_7/U345/Y (AOI21X1)
+                                                          0.03       1.18 f
+  u_sfu/div_81_u_div_u_add_PartRem_19_7/U3/Y (OAI21X1)
+                                                          0.04       1.22 r
+  u_sfu/div_81_u_div_u_add_PartRem_19_7/CO (sfu_DW01_add_1212)
+                                                          0.00       1.22 r
+  u_sfu/U8147/Y (OR2X2)                                   0.05       1.27 r
+  u_sfu/U29859/Y (OAI21X1)                                0.01       1.28 f
+  u_sfu/U29861/Y (AOI22X1)                                0.05       1.33 r
+  u_sfu/U17096/Y (BUFX2)                                  0.05       1.38 r
+  u_sfu/U29889/Y (MUX2X1)                                 0.04       1.42 f
+  u_sfu/U4715/Y (INVX4)                                   0.03       1.45 r
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/A[8] (sfu_DW01_add_1211)
+                                                          0.00       1.45 r
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/U339/Y (NOR2X1)
+                                                          0.02       1.47 f
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/U325/Y (NOR2X1)
+                                                          0.07       1.55 r
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/U323/Y (NAND2X1)
+                                                          0.02       1.57 f
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/U322/Y (OAI21X1)
+                                                          0.06       1.63 r
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/U5/Y (AOI21X1)
+                                                          0.03       1.65 f
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/U413/Y (INVX1)
+                                                          0.01       1.67 r
+  u_sfu/div_81_u_div_u_add_PartRem_18_4/CO (sfu_DW01_add_1211)
+                                                          0.00       1.67 r
+  u_sfu/U11345/Y (NAND2X1)                                0.01       1.68 f
+  u_sfu/U11347/Y (NAND2X1)                                0.03       1.71 r
+  u_sfu/U9478/Y (INVX1)                                   0.03       1.74 f
+  u_sfu/U8442/Y (INVX1)                                   0.00       1.74 r
+  u_sfu/U13000/Y (AND2X2)                                 0.04       1.78 r
+  u_sfu/U5256/Y (INVX1)                                   0.02       1.80 f
+  u_sfu/U29942/Y (OAI21X1)                                0.04       1.84 r
+  u_sfu/U8665/Y (NOR2X1)                                  0.03       1.87 f
+  u_sfu/U8663/Y (INVX4)                                   0.03       1.90 r
+  u_sfu/U3716/Y (INVX1)                                   0.02       1.92 f
+  u_sfu/U30014/Y (MUX2X1)                                 0.04       1.96 f
+  u_sfu/U4460/Y (INVX4)                                   0.04       2.00 r
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/A[7] (sfu_DW01_add_1383)
+                                                          0.00       2.00 r
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/U410/Y (OR2X2)
+                                                          0.05       2.05 r
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/U340/Y (NAND2X1)
+                                                          0.02       2.06 f
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/U339/Y (OAI21X1)
+                                                          0.04       2.11 r
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/U337/Y (AOI21X1)
+                                                          0.02       2.13 f
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/U471/Y (INVX1)
+                                                          0.01       2.13 r
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/U472/Y (INVX1)
+                                                          0.01       2.15 f
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/U5/Y (OAI21X1)
+                                                          0.06       2.20 r
+  u_sfu/div_81_u_div_u_add_PartRem_17_2/CO (sfu_DW01_add_1383)
+                                                          0.00       2.20 r
+  u_sfu/U30052/Y (MUX2X1)                                 0.04       2.24 f
+  u_sfu/U30054/Y (MUX2X1)                                 0.05       2.29 r
+  u_sfu/U8444/Y (INVX2)                                   0.03       2.32 f
+  u_sfu/U5220/Y (AND2X2)                                  0.04       2.36 f
+  u_sfu/U1188/Y (INVX1)                                   0.01       2.37 r
+  u_sfu/U1189/Y (INVX1)                                   0.02       2.39 f
+  u_sfu/U30062/Y (NAND2X1)                                0.03       2.42 r
+  u_sfu/U30063/Y (OAI21X1)                                0.02       2.44 f
+  u_sfu/U30068/Y (NOR3X1)                                 0.05       2.49 r
+  u_sfu/U30069/Y (NAND2X1)                                0.04       2.53 f
+  u_sfu/U6430/Y (INVX8)                                   0.03       2.56 r
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/A[17] (sfu_DW01_add_1478)
+                                                          0.00       2.56 r
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/U300/Y (NOR2X1)
+                                                          0.03       2.58 f
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/U296/Y (NOR2X1)
+                                                          0.06       2.64 r
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/U294/Y (NAND2X1)
+                                                          0.02       2.67 f
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/U293/Y (OAI21X1)
+                                                          0.05       2.71 r
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/U291/Y (AOI21X1)
+                                                          0.02       2.73 f
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/U3/Y (NOR2X1)     0.04       2.77 r
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/U484/Y (BUFX4)
+                                                          0.02       2.79 r
+  u_sfu/div_81_u_div_u_add_PartRem_16_4/CO (sfu_DW01_add_1478)
+                                                          0.00       2.79 r
+  u_sfu/U30204/Y (MUX2X1)                                 0.06       2.85 r
+  u_sfu/U10757/Y (INVX1)                                  0.03       2.88 f
+  u_sfu/U9464/Y (AND2X2)                                  0.03       2.92 f
+  u_sfu/U12002/Y (AND2X2)                                 0.04       2.95 f
+  u_sfu/U4246/Y (AND2X2)                                  0.03       2.99 f
+  u_sfu/U30263/Y (NOR3X1)                                 0.05       3.03 r
+  u_sfu/U30269/Y (NAND2X1)                                0.02       3.05 f
+  u_sfu/U5369/Y (INVX1)                                   0.02       3.07 r
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/A[15] (sfu_DW01_add_1208)
+                                                          0.00       3.07 r
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/U268/Y (NOR2X1)
+                                                          0.02       3.09 f
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/U265/Y (OAI21X1)
+                                                          0.16       3.25 r
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/U237/Y (AOI21X1)
+                                                          0.03       3.27 f
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/U235/Y (OAI21X1)
+                                                          0.03       3.30 r
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/U233/Y (AOI21X1)
+                                                          0.03       3.33 f
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/U4/Y (OAI21X1)
+                                                          0.05       3.38 r
+  u_sfu/div_81_u_div_u_add_PartRem_15_2/CO (sfu_DW01_add_1208)
+                                                          0.00       3.38 r
+  u_sfu/U30385/Y (MUX2X1)                                 0.05       3.43 r
+  u_sfu/U850/Y (MUX2X1)                                   0.03       3.46 f
+  u_sfu/U6436/Y (INVX2)                                   0.03       3.49 r
+  u_sfu/U5166/Y (AND2X2)                                  0.03       3.52 r
+  u_sfu/U1206/Y (INVX1)                                   0.02       3.54 f
+  u_sfu/U820/Y (INVX2)                                    0.03       3.58 r
+  u_sfu/U30585/Y (NAND2X1)                                0.02       3.59 f
+  u_sfu/U30586/Y (OAI21X1)                                0.02       3.61 r
+  u_sfu/U30589/Y (NOR3X1)                                 0.03       3.64 f
+  u_sfu/U6662/Y (AND2X2)                                  0.05       3.69 f
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/A[3] (sfu_DW01_add_1432)
+                                                          0.00       3.69 f
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U434/Y (NOR2X1)
+                                                          0.03       3.72 r
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U470/Y (INVX1)
+                                                          0.02       3.74 f
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U468/Y (NAND2X1)
+                                                          0.01       3.76 r
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U469/Y (NAND2X1)
+                                                          0.02       3.78 f
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U415/Y (AOI21X1)
+                                                          0.04       3.82 r
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U374/Y (OAI21X1)
+                                                          0.02       3.85 f
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U281/Y (AOI21X1)
+                                                          0.03       3.88 r
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U471/Y (INVX1)
+                                                          0.02       3.90 f
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U466/Y (AOI21X1)
+                                                          0.04       3.94 r
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/U447/Y (INVX1)
+                                                          0.03       3.96 f
+  u_sfu/div_81_u_div_u_add_PartRem_14_6/CO (sfu_DW01_add_1432)
+                                                          0.00       3.96 f
+  u_sfu/U30594/Y (MUX2X1)                                 0.03       4.00 f
+  u_sfu/U30595/Y (MUX2X1)                                 0.04       4.04 r
+  u_sfu/U30596/Y (OR2X2)                                  0.06       4.10 r
+  u_sfu/U5063/Y (INVX1)                                   0.02       4.12 f
+  u_sfu/U12929/Y (AND2X2)                                 0.04       4.16 f
+  u_sfu/U5307/Y (INVX1)                                   0.01       4.18 r
+  u_sfu/U5301/Y (BUFX2)                                   0.04       4.21 r
+  u_sfu/U30817/Y (NOR2X1)                                 0.01       4.22 f
+  u_sfu/U5895/Y (OR2X2)                                   0.04       4.26 f
+  u_sfu/U9079/Y (NOR2X1)                                  0.03       4.29 r
+  u_sfu/U30823/Y (NAND2X1)                                0.02       4.31 f
+  u_sfu/U7542/Y (INVX2)                                   0.03       4.34 r
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/A[3] (sfu_DW01_add_1122)
+                                                          0.00       4.34 r
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/U456/Y (NOR2X1)
+                                                          0.02       4.37 f
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/U452/Y (OAI21X1)
+                                                          0.07       4.43 r
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/U437/Y (AOI21X1)
+                                                          0.03       4.46 f
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/U396/Y (OAI21X1)
+                                                          0.05       4.51 r
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/U303/Y (AOI21X1)
+                                                          0.03       4.54 f
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/U476/Y (BUFX4)
+                                                          0.05       4.59 f
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/U4/Y (OAI21X1)
+                                                          0.04       4.64 r
+  u_sfu/div_81_u_div_u_add_PartRem_13_7/CO (sfu_DW01_add_1122)
+                                                          0.00       4.64 r
+  u_sfu/U30826/Y (MUX2X1)                                 0.03       4.67 f
+  u_sfu/U11358/Y (NAND2X1)                                0.03       4.70 r
+  u_sfu/U9071/Y (AND2X2)                                  0.04       4.73 r
+  u_sfu/U3925/Y (INVX1)                                   0.02       4.75 f
+  u_sfu/U11147/Y (AND2X2)                                 0.04       4.80 f
+  u_sfu/U814/Y (INVX1)                                    0.02       4.81 r
+  u_sfu/U7751/Y (OR2X2)                                   0.04       4.85 r
+  u_sfu/U30847/Y (OAI21X1)                                0.02       4.87 f
+  u_sfu/U30850/Y (NOR3X1)                                 0.05       4.92 r
+  u_sfu/U3653/Y (AND2X2)                                  0.04       4.96 r
+  u_sfu/U4330/Y (BUFX4)                                   0.04       5.00 r
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/A[27] (sfu_DW01_add_1109)
+                                                          0.00       5.00 r
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/U220/Y (NOR2X1)
+                                                          0.03       5.03 f
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/U216/Y (NOR2X1)
+                                                          0.06       5.09 r
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/U188/Y (NAND2X1)
+                                                          0.02       5.11 f
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/U9/Y (NOR2X1)     0.04       5.15 r
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/U506/Y (AND2X2)
+                                                          0.03       5.19 r
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/U526/Y (NAND2X1)
+                                                          0.01       5.20 f
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/U527/Y (NAND2X1)
+                                                          0.04       5.24 r
+  u_sfu/div_81_u_div_u_add_PartRem_12_6/CO (sfu_DW01_add_1109)
+                                                          0.00       5.24 r
+  u_sfu/U31080/Y (MUX2X1)                                 0.05       5.29 r
+  u_sfu/U11367/Y (NAND2X1)                                0.02       5.31 f
+  u_sfu/U9412/Y (NAND2X1)                                 0.04       5.35 r
+  u_sfu/U7983/Y (AND2X2)                                  0.05       5.40 r
+  u_sfu/U6299/Y (INVX8)                                   0.03       5.43 f
+  u_sfu/U8302/Y (OR2X2)                                   0.05       5.48 f
+  u_sfu/U31220/Y (OAI21X1)                                0.02       5.50 r
+  u_sfu/U31223/Y (NOR3X1)                                 0.03       5.53 f
+  u_sfu/U31229/Y (NAND2X1)                                0.04       5.57 r
+  u_sfu/U9423/Y (INVX4)                                   0.03       5.61 f
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/A[18] (sfu_DW01_add_1261)
+                                                          0.00       5.61 f
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U351/Y (NAND2X1)
+                                                          0.03       5.63 r
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U341/Y (OAI21X1)
+                                                          0.06       5.69 f
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U540/Y (AND2X2)
+                                                          0.04       5.73 f
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U541/Y (NOR2X1)
+                                                          0.03       5.77 r
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U263/Y (OAI21X1)
+                                                          0.02       5.79 f
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U561/Y (BUFX4)
+                                                          0.05       5.84 f
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U9/Y (AOI21X1)
+                                                          0.03       5.86 r
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/U7/Y (OAI21X1)
+                                                          0.02       5.88 f
+  u_sfu/div_81_u_div_u_add_PartRem_11_4/CO (sfu_DW01_add_1261)
+                                                          0.00       5.88 f
+  u_sfu/U22243/Y (BUFX4)                                  0.05       5.93 f
+  u_sfu/U31382/Y (MUX2X1)                                 0.04       5.97 r
+  u_sfu/U31386/Y (OAI21X1)                                0.04       6.01 f
+  u_sfu/U31397/Y (NAND3X1)                                0.04       6.05 r
+  u_sfu/U6075/Y (INVX2)                                   0.03       6.08 f
+  u_sfu/U3601/Y (INVX8)                                   0.02       6.10 r
+  u_sfu/U31544/Y (NOR2X1)                                 0.01       6.12 f
+  u_sfu/U6030/Y (OR2X2)                                   0.04       6.15 f
+  u_sfu/U8914/Y (NOR2X1)                                  0.03       6.18 r
+  u_sfu/U31545/Y (NAND2X1)                                0.02       6.20 f
+  u_sfu/U10847/Y (INVX4)                                  0.04       6.24 r
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/A[20] (sfu_DW01_add_1385)
+                                                          0.00       6.24 r
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U366/Y (NOR2X1)
+                                                          0.02       6.27 f
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U352/Y (NOR2X1)
+                                                          0.14       6.41 r
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U599/Y (AOI21X1)
+                                                          0.04       6.44 f
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U299/Y (OAI21X1)
+                                                          0.05       6.49 r
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U185/Y (AOI21X1)
+                                                          0.02       6.52 f
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U183/Y (OAI21X1)
+                                                          0.02       6.54 r
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U600/Y (NAND2X1)
+                                                          0.02       6.56 f
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/U601/Y (NAND2X1)
+                                                          0.04       6.60 r
+  u_sfu/div_81_u_div_u_add_PartRem_10_2/CO (sfu_DW01_add_1385)
+                                                          0.00       6.60 r
+  u_sfu/U31709/Y (MUX2X1)                                 0.05       6.65 r
+  u_sfu/U31711/Y (MUX2X1)                                 0.04       6.69 f
+  u_sfu/U7187/Y (INVX1)                                   0.00       6.69 r
+  u_sfu/U7188/Y (INVX1)                                   0.02       6.71 f
+  u_sfu/U31723/Y (NAND3X1)                                0.03       6.74 r
+  u_sfu/U5084/Y (INVX2)                                   0.03       6.78 f
+  u_sfu/U5082/Y (INVX1)                                   0.02       6.80 r
+  u_sfu/U32039/Y (NOR2X1)                                 0.01       6.81 f
+  u_sfu/U5900/Y (OR2X2)                                   0.04       6.85 f
+  u_sfu/U7362/Y (NOR2X1)                                  0.03       6.87 r
+  u_sfu/U32040/Y (NAND2X1)                                0.02       6.90 f
+  u_sfu/U6520/Y (INVX4)                                   0.04       6.94 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/A[5] (sfu_DW01_add_1425)
+                                                          0.00       6.94 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U589/Y (OR2X1)     0.05       6.99 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U590/Y (INVX2)     0.02       7.01 f
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U599/Y (OR2X1)     0.05       7.06 f
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U598/Y (INVX1)     0.01       7.07 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U596/Y (AND2X2)
+                                                          0.03       7.10 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U597/Y (NOR2X1)
+                                                          0.02       7.12 f
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U497/Y (OAI21X1)
+                                                          0.05       7.17 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U404/Y (AOI21X1)
+                                                          0.03       7.20 f
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U197/Y (OAI21X1)
+                                                          0.04       7.24 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U602/Y (INVX1)     0.02       7.26 f
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/U675/Y (OAI21X1)
+                                                          0.04       7.30 r
+  u_sfu/div_81_u_div_u_add_PartRem_9_1/CO (sfu_DW01_add_1425)
+                                                          0.00       7.30 r
+  u_sfu/U32062/Y (MUX2X1)                                 0.02       7.33 f
+  u_sfu/U11351/Y (NAND2X1)                                0.03       7.36 r
+  u_sfu/U8001/Y (AND2X2)                                  0.04       7.39 r
+  u_sfu/U3566/Y (INVX1)                                   0.02       7.41 f
+  u_sfu/U12992/Y (AND2X2)                                 0.05       7.46 f
+  u_sfu/U1211/Y (INVX1)                                   0.02       7.48 r
+  u_sfu/U767/Y (INVX1)                                    0.02       7.50 f
+  u_sfu/U11003/Y (NAND2X1)                                0.02       7.52 r
+  u_sfu/U32261/Y (OAI21X1)                                0.02       7.54 f
+  u_sfu/U32264/Y (NOR3X1)                                 0.05       7.59 r
+  u_sfu/U32270/Y (NAND2X1)                                0.03       7.62 f
+  u_sfu/U6762/Y (INVX4)                                   0.04       7.66 r
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/A[21] (sfu_DW01_add_1223)
+                                                          0.00       7.66 r
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U591/Y (OR2X1)     0.05       7.70 r
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U641/Y (INVX2)     0.02       7.73 f
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U389/Y (NOR2X1)
+                                                          0.04       7.76 r
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U388/Y (AOI21X1)
+                                                          0.03       7.80 f
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U336/Y (OAI21X1)
+                                                          0.05       7.85 r
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U222/Y (AOI21X1)
+                                                          0.02       7.87 f
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U220/Y (OAI21X1)
+                                                          0.02       7.90 r
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U596/Y (INVX1)     0.03       7.92 f
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/U710/Y (OAI21X1)
+                                                          0.04       7.96 r
+  u_sfu/div_81_u_div_u_add_PartRem_8_1/CO (sfu_DW01_add_1223)
+                                                          0.00       7.96 r
+  u_sfu/U32444/Y (NAND2X1)                                0.02       7.98 f
+  u_sfu/U32446/Y (MUX2X1)                                 0.05       8.03 r
+  u_sfu/U32447/Y (OR2X2)                                  0.06       8.09 r
+  u_sfu/U3589/Y (INVX1)                                   0.02       8.11 f
+  u_sfu/U32457/Y (NAND2X1)                                0.02       8.13 r
+  u_sfu/U15822/Y (INVX1)                                  0.03       8.15 f
+  u_sfu/U5066/Y (INVX1)                                   0.00       8.16 r
+  u_sfu/U5065/Y (INVX2)                                   0.03       8.19 f
+  u_sfu/U4863/Y (INVX8)                                   0.02       8.20 r
+  u_sfu/U4862/Y (NOR2X1)                                  0.01       8.22 f
+  u_sfu/U4861/Y (NOR3X1)                                  0.11       8.32 r
+  u_sfu/U4854/Y (NAND2X1)                                 0.03       8.35 f
+  u_sfu/U4853/Y (INVX4)                                   0.03       8.38 r
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/A[3] (sfu_DW01_add_1386)
+                                                          0.00       8.38 r
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U610/Y (NOR2X1)
+                                                          0.02       8.40 f
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U606/Y (OAI21X1)
+                                                          0.05       8.44 r
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U591/Y (AOI21X1)
+                                                          0.03       8.47 f
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U550/Y (OAI21X1)
+                                                          0.05       8.52 r
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U457/Y (AOI21X1)
+                                                          0.03       8.55 f
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U250/Y (OAI21X1)
+                                                          0.05       8.60 r
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U632/Y (INVX1)     0.03       8.62 f
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/U653/Y (OAI21X1)
+                                                          0.05       8.68 r
+  u_sfu/div_81_u_div_u_add_PartRem_7_6/CO (sfu_DW01_add_1386)
+                                                          0.00       8.68 r
+  u_sfu/U32831/Y (MUX2X1)                                 0.05       8.73 r
+  u_sfu/U32832/Y (MUX2X1)                                 0.03       8.76 f
+  u_sfu/U10070/Y (BUFX2)                                  0.04       8.80 f
+  u_sfu/U32838/Y (NAND2X1)                                0.01       8.82 r
+  u_sfu/U5006/Y (INVX2)                                   0.03       8.85 f
+  u_sfu/U5005/Y (INVX8)                                   0.04       8.89 r
+  u_sfu/U33215/Y (OAI21X1)                                0.02       8.91 f
+  u_sfu/U33218/Y (NOR3X1)                                 0.05       8.96 r
+  u_sfu/U8238/Y (NAND2X1)                                 0.03       8.99 f
+  u_sfu/U8239/Y (INVX4)                                   0.04       9.03 r
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/A[6] (sfu_DW01_add_1396)
+                                                          0.00       9.03 r
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U610/Y (NAND2X1)
+                                                          0.02       9.05 f
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U598/Y (OAI21X1)
+                                                          0.10       9.15 r
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U574/Y (AOI21X1)
+                                                          0.02       9.18 f
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U572/Y (OAI21X1)
+                                                          0.02       9.20 r
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U479/Y (AOI21X1)
+                                                          0.03       9.23 f
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U272/Y (OAI21X1)
+                                                          0.04       9.27 r
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U701/Y (INVX2)     0.02       9.29 f
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U724/Y (NOR2X1)
+                                                          0.03       9.32 r
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/U723/Y (OR2X2)     0.04       9.37 r
+  u_sfu/div_81_u_div_u_add_PartRem_6_2/CO (sfu_DW01_add_1396)
+                                                          0.00       9.37 r
+  u_sfu/U33245/Y (MUX2X1)                                 0.03       9.40 f
+  u_sfu/U33247/Y (MUX2X1)                                 0.07       9.47 r
+  u_sfu/U4723/Y (INVX1)                                   0.03       9.50 f
+  u_sfu/U4724/Y (INVX1)                                   0.02       9.52 r
+  u_sfu/U3778/Y (AND2X2)                                  0.03       9.55 r
+  u_sfu/U3779/Y (INVX1)                                   0.02       9.57 f
+  u_sfu/U919/Y (INVX1)                                    0.02       9.58 r
+  u_sfu/U1113/Y (INVX1)                                   0.02       9.60 f
+  u_sfu/U33453/Y (NOR2X1)                                 0.03       9.64 r
+  u_sfu/U33454/Y (NOR3X1)                                 0.02       9.66 f
+  u_sfu/U33455/Y (NAND2X1)                                0.02       9.68 r
+  u_sfu/U5523/Y (INVX1)                                   0.03       9.70 f
+  u_sfu/U5018/Y (BUFX4)                                   0.05       9.76 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/A[29] (sfu_DW01_add_1117)
+                                                          0.00       9.76 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U698/Y (OR2X2)     0.04       9.80 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U699/Y (INVX1)     0.01       9.81 r
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U373/Y (NOR2X1)
+                                                          0.01       9.82 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U729/Y (AND2X2)
+                                                          0.04       9.86 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U697/Y (INVX1)     0.02       9.87 r
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U311/Y (NOR2X1)
+                                                          0.02       9.89 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U310/Y (AOI21X1)
+                                                          0.03       9.92 r
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U308/Y (OAI21X1)
+                                                          0.02       9.94 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U734/Y (BUFX4)     0.05       9.99 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U5/Y (AOI21X1)     0.03      10.02 r
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/U834/Y (INVX1)     0.02      10.04 f
+  u_sfu/div_81_u_div_u_add_PartRem_5_5/CO (sfu_DW01_add_1117)
+                                                          0.00      10.04 f
+  u_sfu/U33681/Y (MUX2X1)                                 0.05      10.09 r
+  u_sfu/U11325/Y (NAND2X1)                                0.02      10.11 f
+  u_sfu/U11327/Y (NAND2X1)                                0.02      10.13 r
+  u_sfu/U9838/Y (BUFX2)                                   0.04      10.17 r
+  u_sfu/U4201/Y (AND2X2)                                  0.05      10.22 r
+  u_sfu/U969/Y (INVX2)                                    0.03      10.24 f
+  u_sfu/U10516/Y (OR2X2)                                  0.05      10.29 f
+  u_sfu/U33823/Y (OAI21X1)                                0.02      10.31 r
+  u_sfu/U33826/Y (NOR3X1)                                 0.04      10.35 f
+  u_sfu/U33832/Y (NAND2X1)                                0.04      10.39 r
+  u_sfu/U10514/Y (INVX4)                                  0.03      10.43 f
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/A[39] (sfu_DW01_add_1066)
+                                                          0.00      10.43 f
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U272/Y (NAND2X1)
+                                                          0.03      10.45 r
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U268/Y (OAI21X1)
+                                                          0.06      10.51 f
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U242/Y (AOI21X1)
+                                                          0.04      10.55 r
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U725/Y (INVX1)     0.03      10.57 f
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U785/Y (NOR2X1)
+                                                          0.03      10.61 r
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U780/Y (AOI21X1)
+                                                          0.02      10.63 f
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U126/Y (AOI21X1)
+                                                          0.04      10.67 r
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U11/Y (OAI21X1)
+                                                          0.02      10.69 f
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U9/Y (AOI21X1)     0.03      10.72 r
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/U797/Y (INVX4)     0.03      10.75 f
+  u_sfu/div_81_u_div_u_add_PartRem_4_4/CO (sfu_DW01_add_1066)
+                                                          0.00      10.75 f
+  u_sfu/U4826/Y (NAND2X1)                                 0.03      10.78 r
+  u_sfu/U4690/Y (INVX1)                                   0.03      10.81 f
+  u_sfu/U34181/Y (NAND2X1)                                0.01      10.82 r
+  u_sfu/U14909/Y (INVX1)                                  0.02      10.84 f
+  u_sfu/U14908/Y (INVX1)                                  0.00      10.84 r
+  u_sfu/U9810/Y (INVX2)                                   0.03      10.87 f
+  u_sfu/U4840/Y (INVX8)                                   0.04      10.91 r
+  u_sfu/U34641/Y (OAI21X1)                                0.02      10.93 f
+  u_sfu/U34642/Y (OAI21X1)                                0.02      10.95 r
+  u_sfu/U34643/Y (OAI21X1)                                0.02      10.97 f
+  u_sfu/U6155/Y (OR2X2)                                   0.04      11.01 f
+  u_sfu/U6243/Y (OR2X1)                                   0.05      11.06 f
+  u_sfu/U3802/Y (INVX4)                                   0.04      11.10 r
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/A[4] (sfu_DW01_add_1288)
+                                                          0.00      11.10 r
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U681/Y (NAND2X1)
+                                                          0.03      11.13 f
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U671/Y (OAI21X1)
+                                                          0.10      11.23 r
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U669/Y (AOI21X1)
+                                                          0.02      11.25 f
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U636/Y (OAI21X1)
+                                                          0.04      11.29 r
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U749/Y (INVX1)     0.03      11.32 f
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U747/Y (NOR2X1)
+                                                          0.03      11.35 r
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U748/Y (NOR2X1)
+                                                          0.02      11.37 f
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U336/Y (OAI21X1)
+                                                          0.07      11.44 r
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U14/Y (AOI21X1)
+                                                          0.03      11.48 f
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/U786/Y (INVX1)     0.00      11.48 r
+  u_sfu/div_81_u_div_u_add_PartRem_3_1/CO (sfu_DW01_add_1288)
+                                                          0.00      11.48 r
+  u_sfu/U34656/Y (MUX2X1)                                 0.02      11.50 f
+  u_sfu/U34657/Y (NAND2X1)                                0.02      11.52 r
+  u_sfu/U34658/Y (NAND3X1)                                0.03      11.54 f
+  u_sfu/U13055/Y (AND2X2)                                 0.04      11.58 f
+  u_sfu/U5016/Y (INVX1)                                   0.02      11.60 r
+  u_sfu/U4179/Y (INVX1)                                   0.02      11.62 f
+  u_sfu/U34965/Y (NAND2X1)                                0.03      11.65 r
+  u_sfu/U34966/Y (OAI21X1)                                0.02      11.67 f
+  u_sfu/U34969/Y (NOR3X1)                                 0.05      11.72 r
+  u_sfu/U6052/Y (AND2X2)                                  0.03      11.75 r
+  u_sfu/U5504/Y (INVX2)                                   0.03      11.78 f
+  u_sfu/U5505/Y (INVX8)                                   0.02      11.80 r
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/A[28] (sfu_DW01_add_1197)
+                                                          0.00      11.80 r
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U470/Y (NOR2X1)
+                                                          0.01      11.82 f
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U811/Y (OR2X2)     0.12      11.94 f
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U756/Y (INVX8)     0.02      11.96 r
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U452/Y (NAND2X1)
+                                                          0.01      11.97 f
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U392/Y (NOR2X1)
+                                                          0.04      12.01 r
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U390/Y (NAND2X1)
+                                                          0.02      12.03 f
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U389/Y (OAI21X1)
+                                                          0.05      12.08 r
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U9/Y (AOI21X1)     0.02      12.11 f
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/U827/Y (INVX1)     0.01      12.12 r
+  u_sfu/div_81_u_div_u_add_PartRem_2_4/CO (sfu_DW01_add_1197)
+                                                          0.00      12.12 r
+  u_sfu/U10394/Y (INVX1)                                  0.02      12.14 f
+  u_sfu/U35206/Y (NAND2X1)                                0.03      12.17 r
+  u_sfu/U35208/Y (NAND2X1)                                0.02      12.18 f
+  u_sfu/U6467/Y (AND2X2)                                  0.04      12.22 f
+  u_sfu/U35210/Y (AOI22X1)                                0.02      12.25 r
+  u_sfu/U35214/Y (NAND2X1)                                0.02      12.27 f
+  u_sfu/U4719/Y (INVX1)                                   0.00      12.27 r
+  u_sfu/U4720/Y (INVX1)                                   0.03      12.30 f
+  u_sfu/U6633/Y (NAND2X1)                                 0.02      12.32 r
+  u_sfu/U6634/Y (INVX1)                                   0.02      12.34 f
+  u_sfu/U14823/Y (INVX1)                                  0.01      12.35 r
+  u_sfu/U14090/Y (INVX1)                                  0.02      12.37 f
+  u_sfu/U11449/Y (INVX1)                                  0.04      12.41 r
+  u_sfu/U35441/Y (NOR2X1)                                 0.02      12.43 f
+  u_sfu/U35442/Y (NOR3X1)                                 0.02      12.45 r
+  u_sfu/U13041/Y (AND2X2)                                 0.04      12.49 r
+  u_sfu/U3522/Y (INVX4)                                   0.03      12.51 f
+  u_sfu/U4277/Y (INVX4)                                   0.02      12.53 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/A[37] (sfu_DW01_add_1443)
+                                                          0.00      12.53 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U834/Y (OR2X1)     0.05      12.58 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U835/Y (INVX2)     0.02      12.60 f
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U376/Y (NOR2X1)
+                                                          0.04      12.64 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U850/Y (AND2X2)
+                                                          0.04      12.68 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U851/Y (INVX1)     0.02      12.70 f
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U322/Y (NOR2X1)
+                                                          0.03      12.74 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U855/Y (AND2X2)
+                                                          0.04      12.77 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U856/Y (INVX4)     0.03      12.81 f
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U17/Y (NOR2X1)     0.03      12.84 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U16/Y (AOI21X1)
+                                                          0.03      12.87 f
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/U939/Y (INVX1)     0.00      12.87 r
+  u_sfu/div_81_u_div_u_add_PartRem_1_1/CO (sfu_DW01_add_1443)
+                                                          0.00      12.87 r
+  u_sfu/U35728/Y (MUX2X1)                                 0.02      12.89 f
+  u_sfu/U35730/Y (MUX2X1)                                 0.06      12.95 r
+  u_sfu/U44/Y (INVX4)                                     0.02      12.97 f
+  u_sfu/U6558/Y (INVX1)                                   0.01      12.98 r
+  u_sfu/U35738/Y (NAND3X1)                                0.01      12.99 f
+  u_sfu/U17107/Y (INVX1)                                  0.00      13.00 r
+  u_sfu/U15877/Y (INVX1)                                  0.01      13.01 f
+  u_sfu/U11806/Y (INVX1)                                  0.01      13.02 r
+  u_sfu/U11830/Y (INVX1)                                  0.01      13.04 f
+  u_sfu/U11833/Y (INVX1)                                  0.01      13.05 r
+  u_sfu/U11808/Y (BUFX2)                                  0.04      13.09 r
+  u_sfu/U35885/Y (AOI22X1)                                0.02      13.10 f
+  u_sfu/U35887/Y (AND2X2)                                 0.04      13.14 f
+  u_sfu/U35888/Y (NAND3X1)                                0.03      13.17 r
+  u_sfu/U15784/Y (INVX1)                                  0.03      13.20 f
+  u_sfu/U11072/Y (INVX4)                                  0.04      13.23 r
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/A[41] (sfu_DW01_add_1462)
+                                                          0.00      13.23 r
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U252/Y (NOR2X1)
+                                                          0.02      13.25 f
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U248/Y (NOR2X1)
+                                                          0.03      13.29 r
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U654/Y (INVX1)     0.02      13.31 f
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U657/Y (NOR2X1)
+                                                          0.03      13.34 r
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U655/Y (NAND2X1)
+                                                          0.02      13.36 f
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U245/Y (OAI21X1)
+                                                          0.05      13.41 r
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U165/Y (AOI21X1)
+                                                          0.02      13.43 f
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U7/Y (OAI21X1)     0.04      13.47 r
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U5/Y (AOI21X1)     0.02      13.49 f
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/U659/Y (INVX1)     0.01      13.50 r
+  u_sfu/div_81_u_div_u_add_PartRem_0_4/CO (sfu_DW01_add_1462)
+                                                          0.00      13.50 r
+  u_sfu/U22336/Y (INVX1)                                  0.01      13.51 f
+  u_sfu/U43110/Y (OAI21X1)                                0.04      13.55 r
+  u_sfu/U43111/Y (AOI21X1)                                0.02      13.57 f
+  u_sfu/U43112/Y (NAND3X1)                                0.03      13.61 r
+  u_sfu/U11289/Y (NOR2X1)                                 0.02      13.63 f
+  u_sfu/U12723/Y (INVX1)                                  0.00      13.63 r
+  u_sfu/U43120/Y (AOI21X1)                                0.01      13.64 f
+  u_sfu/U43122/Y (NAND3X1)                                0.03      13.67 r
+  u_sfu/U43123/Y (NOR2X1)                                 0.02      13.69 f
+  u_sfu/U43124/Y (AOI21X1)                                0.02      13.71 r
+  u_sfu/sfu_out[61] (sfu)                                 0.00      13.71 r
+  U1464/Y (AOI22X1)                                       0.03      13.74 f
+  U950/Y (INVX1)                                          0.07      13.81 r
+  ex_wb_calc_result_reg_61_/D (DFFSR)                     0.00      13.81 r
+  data arrival time                                                 13.81
+
+  clock clk (rise edge)                                  14.00      14.00
+  clock network delay (ideal)                             0.00      14.00
+  clock uncertainty                                      -0.10      13.90
+  ex_wb_calc_result_reg_61_/CLK (DFFSR)                   0.00      13.90 r
+  library setup time                                     -0.09      13.81
+  data required time                                                13.81
+  --------------------------------------------------------------------------
+  data required time                                                13.81
+  data arrival time                                                -13.81
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+1
