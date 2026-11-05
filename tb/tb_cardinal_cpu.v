@@ -33,7 +33,8 @@
 `timescale 1ns/10ps
 
 // Define the clock cycle
-`define CYCLE_TIME 4
+//`define CYCLE_TIME 4
+`define CYCLE_TIME 20 // For synthesized gate-level timing
 // Upper bound on the program length in clock cycles
 `define MAX_CYCLES 5000
 
