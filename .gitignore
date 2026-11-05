@@ -38,6 +38,7 @@ Thumbs.db
 *.dump
 !tests/*.dump
 !expected_dmem.dump
+!out/dmem.dump
 *.bak
 *.swp
 *~
