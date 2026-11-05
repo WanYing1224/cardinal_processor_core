@@ -1,0 +1,319 @@
+                          CONFORMAL (R)
+                   Version 25.20-p100 (12-Nov-2025) (64 bit executable)
+   Copyright (c) Cadence Design Systems, Inc., 1997-2025. All Rights Reserved
+
+
+This program is proprietary and confidential information belonging to
+Cadence Design Systems, Inc., and may be used and disclosed only as authorized
+in a license agreement controlling such use and disclosure.
+
+// Warning: This version is 357 days old. You can download the latest version from http://downloads.cadence.com.
+
+CPU time     : 0.13    seconds
+Elapse time  : 0       seconds
+Memory usage : 133.06  M bytes
+// Command: read library -both -verilog include/gscl45nm.v
+// Parsing file include/gscl45nm.v ...
+// Warning: (RTL14) Signal has input but it has no output (occurrence:6)
+// Warning: (RTL14.1) Fanout load of the signal is removed (occurrence:1)
+// Warning: (DIR6.1) Ignored compiler directive is detected (occurrence:32)
+// Warning: (DIR6.2) Supported compiler directive is detected (occurrence:64)
+// Note: Read VERILOG library successfully
+// Command: read design design/control_decoder.v design/register_file.v design/hazard_unit.v design/alu.v design/sfu.v design/cardinal_cpu.v -golden -verilog
+// Parsing file design/control_decoder.v ...
+// Parsing file design/register_file.v ...
+// Parsing file design/hazard_unit.v ...
+// Parsing file design/alu.v ...
+// Parsing file design/sfu.v ...
+// Parsing file design/cardinal_cpu.v ...
+// Golden root module is set to 'cardinal_cpu'
+// Warning: (RTL1.5a) Assignment with RHS bit width is greater than LHS bit width (occurrence:14)
+// Warning: (RTL1.5b) Potential loss of RHS msb or carry-out bit (occurrence:30)
+// Note: (RTL5.5a) Default case item with non-X assignment(s) (occurrence:11)
+// Note: (RTL5.6) Case statement with no default (occurrence:13)
+// Note: (RTL5.7) Default case item with inconsistent assignment(s). (occurrence:2)
+// Warning: (RTL6.3) X created when divisor equals to zero (occurrence:30)
+// Note: (RTL8.1) Multiple multipliers/dividers are in module/entity (occurrence:2)
+// Warning: (RTL8.3) Unreachable DFF/DLAT is removed (occurrence:32)
+// Warning: (RTL14) Signal has input but it has no output (occurrence:49)
+// Warning: (RTL25) Non-automatic task/function (occurrence:1)
+// Warning: (HRC3.10a) An input port is declared, but it is not completely used in the module (occurrence:1)
+// Warning: (HRC3.16) A wire is declared, but not used in the module (occurrence:1)
+// Note: Read VERILOG design successfully
+CPU time     : 0.59    seconds
+Elapse time  : 0       seconds
+Memory usage : 262.66  M bytes
+// Command: read design netlist/cardinal_cpu.syn.v -revised -verilog
+// Parsing file netlist/cardinal_cpu.syn.v ...
+// Revised root module is set to 'cardinal_cpu'
+// Warning: (RTL2.13) Undriven pin is detected (occurrence:15307)
+// Warning: (RTL14) Signal has input but it has no output (occurrence:15084)
+// Note: (HRC3.5b) Open output port connection is detected (occurrence:889)
+// Warning: (HRC3.10a) An input port is declared, but it is not completely used in the module (occurrence:27171)
+// Warning: There are 15307 undriven nets in Revised
+// Warning: There are 15307 undriven pins in Revised
+// Note: Read VERILOG design successfully
+CPU time     : 6.51    seconds
+Elapse time  : 6       seconds
+Memory usage : 488.18  M bytes
+// Command: set root module cardinal_cpu -golden
+// Warning: Golden root module is already at 'cardinal_cpu'
+// Command: set root module cardinal_cpu -revised
+// Warning: Revised root module is already at 'cardinal_cpu'
+// Command: set flatten model -seq_constant -seq_constant_x_to 0 -gated_clock
+// Command: add pin constraints 0 reset -both
+// Command: set mapping method -phase -name first
+// Command: set system mode lec
+// Processing Golden ...
+// Modeling Golden ...
+// Warning: (F34) Converted 512 X assignment(s) as don't care(s)
+// Processing Revised ...
+// Modeling Revised ...
+// Balanced modeling (auto) mapped 4848 out of 4848 DFF/DLATs
+// (F28) Converted 15307 internal output port(s) to inout port(s)
+CPU time     : 14.73   seconds
+Elapse time  : 15      seconds
+Memory usage : 749.08  M bytes
+// Mapping key points ...
+================================================================================
+Mapped points: SYSTEM class
+--------------------------------------------------------------------------------
+Mapped points     PI     PO     DFF       Total   
+--------------------------------------------------------------------------------
+Golden            97     130    2424      2651    
+--------------------------------------------------------------------------------
+Revised           97     130    2424      2651    
+================================================================================
+CPU time     : 64.60   seconds
+Elapse time  : 65      seconds
+Memory usage : 896.64  M bytes
+// Command: add compared points -all
+// 2554 compared points added to compare list
+CPU time     : 64.70   seconds
+Elapse time  : 65      seconds
+Memory usage : 897.36  M bytes
+// Command: delete compared points ex_wb_calc_result_reg*
+These compared points are deleted:
+  (G) + 333    DFF  /ex_wb_calc_result_reg[41]
+  (R) - 2610   DFF  /ex_wb_calc_result_reg_41_/U$1/U$1
+These compared points are deleted:
+  (G) + 328    DFF  /ex_wb_calc_result_reg[36]
+  (R) - 2614   DFF  /ex_wb_calc_result_reg_36_/U$1/U$1
+These compared points are deleted:
+  (G) + 305    DFF  /ex_wb_calc_result_reg[13]
+  (R) - 2634   DFF  /ex_wb_calc_result_reg_13_/U$1/U$1
+These compared points are deleted:
+  (G) + 343    DFF  /ex_wb_calc_result_reg[51]
+  (R) - 2623   DFF  /ex_wb_calc_result_reg_51_/U$1/U$1
+These compared points are deleted:
+  (G) + 325    DFF  /ex_wb_calc_result_reg[33]
+  (R) - 2590   DFF  /ex_wb_calc_result_reg_33_/U$1/U$1
+These compared points are deleted:
+  (G) + 304    DFF  /ex_wb_calc_result_reg[12]
+  (R) - 2635   DFF  /ex_wb_calc_result_reg_12_/U$1/U$1
+These compared points are deleted:
+  (G) + 323    DFF  /ex_wb_calc_result_reg[31]
+  (R) - 2640   DFF  /ex_wb_calc_result_reg_31_/U$1/U$1
+These compared points are deleted:
+  (G) + 354    DFF  /ex_wb_calc_result_reg[62]
+  (R) - 2650   DFF  /ex_wb_calc_result_reg_62_/U$1/U$1
+These compared points are deleted:
+  (G) + 332    DFF  /ex_wb_calc_result_reg[40]
+  (R) - 2611   DFF  /ex_wb_calc_result_reg_40_/U$1/U$1
+These compared points are deleted:
+  (G) + 314    DFF  /ex_wb_calc_result_reg[22]
+  (R) - 2636   DFF  /ex_wb_calc_result_reg_22_/U$1/U$1
+These compared points are deleted:
+  (G) + 313    DFF  /ex_wb_calc_result_reg[21]
+  (R) - 2637   DFF  /ex_wb_calc_result_reg_21_/U$1/U$1
+These compared points are deleted:
+  (G) + 355    DFF  /ex_wb_calc_result_reg[63]
+  (R) - 2625   DFF  /ex_wb_calc_result_reg_63_/U$1/U$1
+These compared points are deleted:
+  (G) + 324    DFF  /ex_wb_calc_result_reg[32]
+  (R) - 2591   DFF  /ex_wb_calc_result_reg_32_/U$1/U$1
+These compared points are deleted:
+  (G) + 353    DFF  /ex_wb_calc_result_reg[61]
+  (R) - 2651   DFF  /ex_wb_calc_result_reg_61_/U$1/U$1
+These compared points are deleted:
+  (G) + 312    DFF  /ex_wb_calc_result_reg[20]
+  (R) - 2638   DFF  /ex_wb_calc_result_reg_20_/U$1/U$1
+These compared points are deleted:
+  (G) + 322    DFF  /ex_wb_calc_result_reg[30]
+  (R) - 2595   DFF  /ex_wb_calc_result_reg_30_/U$1/U$1
+These compared points are deleted:
+  (G) + 303    DFF  /ex_wb_calc_result_reg[11]
+  (R) - 2626   DFF  /ex_wb_calc_result_reg_11_/U$1/U$1
+These compared points are deleted:
+  (G) + 345    DFF  /ex_wb_calc_result_reg[53]
+  (R) - 2615   DFF  /ex_wb_calc_result_reg_53_/U$1/U$1
+These compared points are deleted:
+  (G) + 338    DFF  /ex_wb_calc_result_reg[46]
+  (R) - 2602   DFF  /ex_wb_calc_result_reg_46_/U$1/U$1
+These compared points are deleted:
+  (G) + 302    DFF  /ex_wb_calc_result_reg[10]
+  (R) - 2627   DFF  /ex_wb_calc_result_reg_10_/U$1/U$1
+These compared points are deleted:
+  (G) + 301    DFF  /ex_wb_calc_result_reg[9]
+  (R) - 2641   DFF  /ex_wb_calc_result_reg_9_/U$1/U$1
+These compared points are deleted:
+  (G) + 293    DFF  /ex_wb_calc_result_reg[1]
+  (R) - 2649   DFF  /ex_wb_calc_result_reg_1_/U$1/U$1
+These compared points are deleted:
+  (G) + 300    DFF  /ex_wb_calc_result_reg[8]
+  (R) - 2642   DFF  /ex_wb_calc_result_reg_8_/U$1/U$1
+These compared points are deleted:
+  (G) + 294    DFF  /ex_wb_calc_result_reg[2]
+  (R) - 2648   DFF  /ex_wb_calc_result_reg_2_/U$1/U$1
+These compared points are deleted:
+  (G) + 299    DFF  /ex_wb_calc_result_reg[7]
+  (R) - 2643   DFF  /ex_wb_calc_result_reg_7_/U$1/U$1
+These compared points are deleted:
+  (G) + 295    DFF  /ex_wb_calc_result_reg[3]
+  (R) - 2647   DFF  /ex_wb_calc_result_reg_3_/U$1/U$1
+These compared points are deleted:
+  (G) + 298    DFF  /ex_wb_calc_result_reg[6]
+  (R) - 2644   DFF  /ex_wb_calc_result_reg_6_/U$1/U$1
+These compared points are deleted:
+  (G) + 296    DFF  /ex_wb_calc_result_reg[4]
+  (R) - 2646   DFF  /ex_wb_calc_result_reg_4_/U$1/U$1
+These compared points are deleted:
+  (G) + 297    DFF  /ex_wb_calc_result_reg[5]
+  (R) - 2645   DFF  /ex_wb_calc_result_reg_5_/U$1/U$1
+These compared points are deleted:
+  (G) + 344    DFF  /ex_wb_calc_result_reg[52]
+  (R) - 2616   DFF  /ex_wb_calc_result_reg_52_/U$1/U$1
+These compared points are deleted:
+  (G) + 349    DFF  /ex_wb_calc_result_reg[57]
+  (R) - 2619   DFF  /ex_wb_calc_result_reg_57_/U$1/U$1
+These compared points are deleted:
+  (G) + 340    DFF  /ex_wb_calc_result_reg[48]
+  (R) - 2594   DFF  /ex_wb_calc_result_reg_48_/U$1/U$1
+These compared points are deleted:
+  (G) + 348    DFF  /ex_wb_calc_result_reg[56]
+  (R) - 2620   DFF  /ex_wb_calc_result_reg_56_/U$1/U$1
+These compared points are deleted:
+  (G) + 352    DFF  /ex_wb_calc_result_reg[60]
+  (R) - 2617   DFF  /ex_wb_calc_result_reg_60_/U$1/U$1
+These compared points are deleted:
+  (G) + 331    DFF  /ex_wb_calc_result_reg[39]
+  (R) - 2601   DFF  /ex_wb_calc_result_reg_39_/U$1/U$1
+These compared points are deleted:
+  (G) + 347    DFF  /ex_wb_calc_result_reg[55]
+  (R) - 2621   DFF  /ex_wb_calc_result_reg_55_/U$1/U$1
+These compared points are deleted:
+  (G) + 351    DFF  /ex_wb_calc_result_reg[59]
+  (R) - 2618   DFF  /ex_wb_calc_result_reg_59_/U$1/U$1
+These compared points are deleted:
+  (G) + 311    DFF  /ex_wb_calc_result_reg[19]
+  (R) - 2630   DFF  /ex_wb_calc_result_reg_19_/U$1/U$1
+These compared points are deleted:
+  (G) + 337    DFF  /ex_wb_calc_result_reg[45]
+  (R) - 2606   DFF  /ex_wb_calc_result_reg_45_/U$1/U$1
+These compared points are deleted:
+  (G) + 321    DFF  /ex_wb_calc_result_reg[29]
+  (R) - 2592   DFF  /ex_wb_calc_result_reg_29_/U$1/U$1
+These compared points are deleted:
+  (G) + 319    DFF  /ex_wb_calc_result_reg[27]
+  (R) - 2596   DFF  /ex_wb_calc_result_reg_27_/U$1/U$1
+These compared points are deleted:
+  (G) + 346    DFF  /ex_wb_calc_result_reg[54]
+  (R) - 2622   DFF  /ex_wb_calc_result_reg_54_/U$1/U$1
+These compared points are deleted:
+  (G) + 315    DFF  /ex_wb_calc_result_reg[23]
+  (R) - 2629   DFF  /ex_wb_calc_result_reg_23_/U$1/U$1
+These compared points are deleted:
+  (G) + 310    DFF  /ex_wb_calc_result_reg[18]
+  (R) - 2631   DFF  /ex_wb_calc_result_reg_18_/U$1/U$1
+These compared points are deleted:
+  (G) + 339    DFF  /ex_wb_calc_result_reg[47]
+  (R) - 2600   DFF  /ex_wb_calc_result_reg_47_/U$1/U$1
+These compared points are deleted:
+  (G) + 309    DFF  /ex_wb_calc_result_reg[17]
+  (R) - 2632   DFF  /ex_wb_calc_result_reg_17_/U$1/U$1
+These compared points are deleted:
+  (G) + 307    DFF  /ex_wb_calc_result_reg[15]
+  (R) - 2639   DFF  /ex_wb_calc_result_reg_15_/U$1/U$1
+These compared points are deleted:
+  (G) + 336    DFF  /ex_wb_calc_result_reg[44]
+  (R) - 2607   DFF  /ex_wb_calc_result_reg_44_/U$1/U$1
+These compared points are deleted:
+  (G) + 320    DFF  /ex_wb_calc_result_reg[28]
+  (R) - 2593   DFF  /ex_wb_calc_result_reg_28_/U$1/U$1
+These compared points are deleted:
+  (G) + 318    DFF  /ex_wb_calc_result_reg[26]
+  (R) - 2597   DFF  /ex_wb_calc_result_reg_26_/U$1/U$1
+These compared points are deleted:
+  (G) + 292    DFF  /ex_wb_calc_result_reg[0]
+  (R) - 2603   DFF  /ex_wb_calc_result_reg_0_/U$1/U$1
+These compared points are deleted:
+  (G) + 308    DFF  /ex_wb_calc_result_reg[16]
+  (R) - 2628   DFF  /ex_wb_calc_result_reg_16_/U$1/U$1
+These compared points are deleted:
+  (G) + 341    DFF  /ex_wb_calc_result_reg[49]
+  (R) - 2624   DFF  /ex_wb_calc_result_reg_49_/U$1/U$1
+These compared points are deleted:
+  (G) + 317    DFF  /ex_wb_calc_result_reg[25]
+  (R) - 2598   DFF  /ex_wb_calc_result_reg_25_/U$1/U$1
+These compared points are deleted:
+  (G) + 335    DFF  /ex_wb_calc_result_reg[43]
+  (R) - 2608   DFF  /ex_wb_calc_result_reg_43_/U$1/U$1
+These compared points are deleted:
+  (G) + 327    DFF  /ex_wb_calc_result_reg[35]
+  (R) - 2588   DFF  /ex_wb_calc_result_reg_35_/U$1/U$1
+These compared points are deleted:
+  (G) + 342    DFF  /ex_wb_calc_result_reg[50]
+  (R) - 2605   DFF  /ex_wb_calc_result_reg_50_/U$1/U$1
+These compared points are deleted:
+  (G) + 330    DFF  /ex_wb_calc_result_reg[38]
+  (R) - 2612   DFF  /ex_wb_calc_result_reg_38_/U$1/U$1
+These compared points are deleted:
+  (G) + 316    DFF  /ex_wb_calc_result_reg[24]
+  (R) - 2599   DFF  /ex_wb_calc_result_reg_24_/U$1/U$1
+These compared points are deleted:
+  (G) + 334    DFF  /ex_wb_calc_result_reg[42]
+  (R) - 2609   DFF  /ex_wb_calc_result_reg_42_/U$1/U$1
+These compared points are deleted:
+  (G) + 326    DFF  /ex_wb_calc_result_reg[34]
+  (R) - 2589   DFF  /ex_wb_calc_result_reg_34_/U$1/U$1
+These compared points are deleted:
+  (G) + 329    DFF  /ex_wb_calc_result_reg[37]
+  (R) - 2613   DFF  /ex_wb_calc_result_reg_37_/U$1/U$1
+These compared points are deleted:
+  (G) + 350    DFF  /ex_wb_calc_result_reg[58]
+  (R) - 2604   DFF  /ex_wb_calc_result_reg_58_/U$1/U$1
+These compared points are deleted:
+  (G) + 306    DFF  /ex_wb_calc_result_reg[14]
+  (R) - 2633   DFF  /ex_wb_calc_result_reg_14_/U$1/U$1
+// Command: compare
+================================================================================
+Compared points      PO     DFF       Total   
+--------------------------------------------------------------------------------
+Equivalent           130    2348      2478    
+--------------------------------------------------------------------------------
+Inverted-equivalent  0      12        12      
+================================================================================
+CPU time     : 66.18   seconds
+Elapse time  : 67      seconds
+Memory usage : 962.87  M bytes
+// Command: report compare data -class nonequivalent
+0 Non-equivalent point(s) reported
+0 compared point(s) reported
+================================================================================
+Compared points      PO     DFF       Total   
+--------------------------------------------------------------------------------
+Equivalent           130    2348      2478    
+--------------------------------------------------------------------------------
+Inverted-equivalent  0      12        12      
+================================================================================
+// Command: report compare data -class abort
+0 Abort point(s) reported
+0 compared point(s) reported
+================================================================================
+Compared points      PO     DFF       Total   
+--------------------------------------------------------------------------------
+Equivalent           130    2348      2478    
+--------------------------------------------------------------------------------
+Inverted-equivalent  0      12        12      
+================================================================================
+// Command: exit -f
