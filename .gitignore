@@ -48,6 +48,7 @@ Phase_2_Group_13/
 *.zip
 *.tar
 Phase2_for_student/
+doc/
 
 # TA Provided files
 *.csh
