@@ -213,5 +213,5 @@ ncverilog +gui +access+rwc tb/tb_cardinal_cpu.v include/gscl45nm.v netlist/cardi
 
 ## Authors & Acknowledgments
 
-**Course**: *EE577B - VLSI System Design, University of Southern California (USC)* 
-**Author**: [Kevelyn Lin](https://github.com/WanYing1224), [Yuxiang Luo](https://github.com/lllyxxxx)
+- **Course**: *EE577B - VLSI System Design, University of Southern California (USC)* 
+- **Author**: [Kevelyn Lin](https://github.com/WanYing1224), [Yuxiang Luo](https://github.com/lllyxxxx)
