@@ -1,290 +1,217 @@
-# EE577B Project Phase 2: Cardinal Processor Simulation Framework
+# Cardinal 64-Bit Variable-Width SIMD Vector Processor Core
 
-This directory is the simulation framework described in item 2 of the Phase 2
-handout. Implement the Cardinal processor in `design/`, verify it with your own
-programs, and submit this directory.
+[![Simulation](https://img.shields.io/badge/NC--Sim-Passing-brightgreen.svg)]() [![Synthesis](https://img.shields.io/badge/Synopsys%20DC-GSCL45nm-blue.svg)]() [![Equivalence](https://img.shields.io/badge/Cadence%20LEC-Equivalent-success.svg)]()
 
-## Contents
+A synthesizable, 4-stage in-order pipelined 64-bit SIMD vector processor core designed in Verilog HDL for high-throughput data processing and integration with a 4×4 On-Chip Mesh Interconnect.
 
-| Path | Description |
-|---|---|
-| `include/imem.v` | Instruction memory, 256 x 32, asynchronous read. Part of the testbench. Do not modify. |
-| `include/dmem.v` | Data memory, 256 x 64, synchronous. Part of the testbench. Do not modify. |
-| `tb/tb_cardinal_cpu.v` | Basic top-level testbench: runs one program, dumps data memory and, for `make test`, compares it with an expected dump. Do not change the `cardinal_cpu` instance. |
-| `design/cardinal_cpu.v` | Top-level module template. The module name and port list are fixed. |
-| `design/register_file.v` | Register file skeleton with a suggested interface. |
-| `imem.fill`, `dmem.fill` | Basic sample program and its data (see "Sample program"). |
-| `expected_dmem.dump` | Expected data memory dump for the sample program. |
-| `makefile`, `cds.lib`, `hdl.var`, `scripts/`, `work/` | NC-Sim flow. |
-| `setup_v1721.csh` | Course tool environment (NC-Sim, Design Compiler, DesignWare). |
+---
 
-## Environment
+## Table of Contents
+- [Architecture Overview](#architecture-overview)
+- [Pipeline Architecture](#pipeline-architecture)
+- [Instruction Set & SIMD Subword Partitioning](#instruction-set--simd-subword-partitioning)
+- [Design Hierarchy & Submodules](#design-hierarchy--submodules)
+- [Directory Layout](#directory-layout)
+- [Verification & Test Framework](#verification--test-framework)
+- [Synthesis & Physical Performance](#synthesis--physical-performance)
+- [Getting Started & Simulation Guide](#getting-started--simulation-guide)
 
-The flow uses Cadence NC-Sim (`ncvlog`, `ncelab`, `ncsim`). Load the course
-environment before running `make`.
+---
 
-From the C shell:
+## Architecture Overview
 
-```csh
-source setup_v1721.csh
-make sim
+The **Cardinal Processor Core (`cardinal_cpu`)** processes 64-bit vector registers across four software-selectable subword slice granularities. Instructions are fixed 32-bit words aligned to 4-byte boundaries, adhering strictly to **Big-Endian** bit and byte indexing:
+- **Instructions:** Indexed as `[0:31]`, where bit `0` is MSB and bit `31` is LSB.
+- **Data Words:** Indexed as `[0:63]`, where bit `0` is MSB and bit `63` is LSB.
+- **Subword Packing:** Vector slices are ordered starting with slice 0 occupying the MSB positions.
+
+---
+
+## Pipeline Architecture
+
+The processor implements a compact, high-efficiency 4-stage pipeline that eliminates dedicated execution-memory delay slot hazards by unifying compute and memory operations into a single stage:
+
+<p align="center">
+  <img src="Pipline Architecture Schematic.jpg" alt="Pipline Architecture Schematic" width="1000"/>
+  <br/>
+  <em>Figure 1: Pipline Architecture Schematic</em>
+</p>
+
+### Key Microarchitectural Features
+1. **Early Branch Resolution (ID Stage):** Evaluates `VBEZ` / `VBNEZ` zero conditions directly in the decode stage. Branches resolve in 1 cycle, asserting `flush_if_id` to eliminate delay slot penalty cycles and squash speculative execution.
+2. **Centralized RAW Interlocking:** The hazard detection unit continuously monitors destination registers in `EX` and `WB` against current source specifiers (`rA`, `rB`, and `rD` when utilized as a store source or branch comparator). Hazards trigger `stall_pc`, `stall_if_id`, and inject a hardware `bubble_id_ex` (`32'hF000_0000`).
+3. **Byte-Level Register File Masking:** Each of the 32 64-bit registers contains 8 independent byte lanes gated by `wrByteEn[0:7]`, derived dynamically from the instruction's `PPP` participation field. Register $R_0$ is hardwired to logic 0.
+
+---
+
+## Instruction Set & SIMD Subword Partitioning
+
+### SIMD Granularities (`ww` field: bits `[11:12]`)
+* **Byte (`.b` / `2'b00`):** Eight parallel 8-bit slices (`[0:7]`, `[8:15]`, ..., `[56:63]`)
+* **Half-word (`.h` / `2'b01`):** Four parallel 16-bit slices (`[0:15]`, `[16:31]`, `[32:47]`, `[48:63]`)
+* **Word (`.w` / `2'b10`):** Two parallel 32-bit slices (`[0:31]`, `[32:63]`)
+* **Double-word (`.d` / `2'b11`):** One full 64-bit slice (`[0:63]`)
+
+### Subfield Participation (`PPP` field: bits `[21:23]`)
+Controls which subfields participate in register writeback (`wrByteEn[0:7]`):
+* `3'b000`: All subwords participate (`8'b1111_1111`)
+* `3'b001`: Upper 32 bits participate (`8'b1111_0000`)
+* `3'b010`: Lower 32 bits participate (`8'b0000_1111`)
+* `3'b011`: Even subwords participate
+* `3'b100`: Odd subwords participate
+
+### Supported Instruction Classes
+* **Memory & Branch:** `VLD`, `VSD`, `VBEZ`, `VBNEZ`, `VNOP`
+* **Bitwise Logic & Data Movement:** `VAND`, `VOR`, `VXOR`, `VNOT`, `VMOV`
+* **Arithmetic & Multipliers:** `VADD`, `VSUB`, `VMULEU` (Even Unsigned Multiply), `VMULOU` (Odd Unsigned Multiply), `VSQEU` (Even Square), `VSQOU` (Odd Square)
+* **Shifts & Rotates:** `VSLL` (Logical Left), `VSRL` (Logical Right), `VSRA` (Arithmetic Right), `VRTTH` (Swap Halves)
+* **Special Function Unit (SFU):** `VDIV` (Unsigned Division), `VMOD` (Remainder/Modulo), `VSQRT` (Square Root Extraction)
+
+---
+
+## Design Hierarchy & Submodules
+
+```text
+cardinal_cpu.v                  # Top-level core integration & pipeline registers
+├── control_decoder.v           # Combinational opcode/sub-opcode decoder & PPP generator
+├── register_file.v             # 32x64-bit dual-read / single-write RF with byte enables
+├── hazard_unit.v               # RAW stall interlock & branch flush generation
+├── alu.v                       # Single-cycle SIMD arithmetic, shift, and logic array
+└── sfu.v                       # Multi-slice non-restoring divider, modulo, and square root unit
 ```
 
-From bash:
+---
+
+## Directory Layout
+
+```text
+.
+├── design/                     # Synthesizable RTL source files
+│   ├── alu.v
+│   ├── cardinal_cpu.v
+│   ├── control_decoder.v
+│   ├── hazard_unit.v
+│   ├── register_file.v
+│   └── sfu.v
+├── include/                    # Simulation models & standard cell libraries
+│   ├── dmem.v                  # 256x64-bit synchronous data memory
+│   ├── imem.v                  # 256x32-bit asynchronous instruction memory
+│   └── gscl45nm.v              # 45nm standard cell simulation library
+├── netlist/                    # Gate-level netlists & timing constraints
+│   ├── cardinal_cpu.syn.v      # Post-synthesis structural Verilog netlist
+│   └── cardinal_cpu.sdc        # Synopsys Design Constraints file
+├── report/                     # EDA verification, timing, and area reports
+│   ├── cardinal_cpu.check_design
+│   ├── cardinal_cpu.area
+│   ├── cardinal_cpu.timing
+│   ├── cardinal_cpu.power
+│   └── cardinal_cpu.lec
+├── scripts/                    # Assembler, Python emulators, and EDA runscripts
+│   ├── assemble.py             # Two-pass Cardinal ISA assembler
+│   ├── gen_expected.py         # Baseline golden model reference emulator
+│   ├── gen_expected_hazard.py  # Hazard test golden model reference emulator
+│   ├── syn_cardinal_cpu.tcl    # Synopsys Design Compiler synthesis script
+│   └── lec_cardinal_cpu.do     # Cadence Conformal LEC formal verification script
+├── tb/                         # Self-checking unit and core testbenches
+│   ├── tb_cardinal_cpu.v       # Top-level simulation and regression testbench
+│   ├── tb_alu.v
+│   ├── tb_control_decoder.v
+│   ├── tb_hazard_unit.v
+│   ├── tb_register_file.v
+│   └── tb_sfu.v
+├── tests/                      # Assembly programs, memory images, and dumps
+│   ├── test_math.asm           # SFU, SIMD width, and multiplier test program
+│   ├── test_hazard.asm         # Interlock, delay slot, and branch squash test program
+│   ├── imem.fill / dmem.fill   # Baseline test vectors
+│   └── expected_dmem*.dump     # Golden memory verification snapshots
+├── cds.lib                 
+├── hdl.var               
+├── imem.fill                   # MUST BE IN ROOT FOR "make test"
+├── dmem.fill                   # MUST BE IN ROOT FOR "make test"
+├── expected_dmem.dump          # MUST BE IN ROOT FOR  "make test"
+├── makefile                    # Build, simulation, and regression targets
+└── README.md
+```
+
+---
+
+## Verification & Test Framework
+
+Verification is performed using a two-pass assembler and Python-based golden reference simulators:
+1. **Two-Pass Assembler (`scripts/assemble.py`):** Resolves symbolic forward/backward labels and converts assembly mnemonics into machine code hex images (`imem.fill`).
+2. **Golden Reference Modeling (`scripts/gen_expected*.py`):** Emulates exact Big-Endian byte masking, DesignWare integer truncations, and memory writes to create golden reference memory dumps (`expected_dmem.dump`).
+3. **Core Test Suites:**
+   * **Baseline Suite:** Validates linear ALU instructions, loads/stores, and unhindered throughput.
+   * **Math & SFU Suite (`test_math.asm`):** Targets all 11 required operations (`VMULEU`, `VMULOU`, `VSQEU`, `VSQOU`, `VSLL`, `VSRL`, `VSRA`, `VRTTH`, `VDIV`, `VMOD`, `VSQRT`) across all four slice widths with zero-division corner cases.
+   * **Hazard Suite (`test_hazard.asm`):** Stresses 1-cycle EX collisions, 2-cycle WB collisions, `rD` store dependencies, and speculative store suppression on taken branches.
+
+---
+
+## Synthesis & Physical Performance
+
+Synthesized targeting the **GSCL45nm** (45nm standard cell CMOS library, nominal $1.1\,\text{V}$) using **Synopsys Design Compiler**:
+
+| Metric | Result | Description / Notes |
+| :--- | :--- | :--- |
+| **Total Standard Cell Area** | **$732{,}907.21\,\mu\text{m}^2$** | Comprising 282,715 cells ($607{,}264.80\,\mu\text{m}^2$ in `u_sfu`) |
+| **Sequential Storage** | **2,424 DFFs** | 1,984 in Register File ($R_0$ constant 0) + 440 in pipeline registers |
+| **Critical Path Delay** | **$13.81\,\text{ns}$** | Launch: `id_ex_rB_data_reg` $\rightarrow$ SFU ripple divider $\rightarrow$ Capture: `ex_wb_calc_result_reg` |
+| **Clock Setup Slack** | **$0.00\,\text{ns}$ (MET)** | Target $T_{\text{clk}} = 14.00\,\text{ns}$ ($F_{\max} = 71.43\,\text{MHz}$) |
+| **Total Core Power** | **$6.1118\,\text{mW}$** | Dynamic: $3.5424\,\text{mW}$ ($51.8\%$ clock network) + Static Leakage: $2.5694\,\text{mW}$ |
+| **Formal Equivalence** | **PASSED (0 Mismatches)** | Cadence Conformal LEC: 130 POs & 2,360 DFF state points verified equivalent |
+
+---
+
+## Getting Started & Simulation Guide
+
+### Prerequisites
+* **Cadence NC-Sim / Xcelium** (`ncverilog` / `xrun`)
+* **Synopsys Design Compiler** (for synthesis runs)
+* **Cadence Conformal LEC** (for formal equivalence verification)
+* **Python 3.x**
+
+### Running Core Regressions
 
 ```bash
-csh -f -c 'source setup_v1721.csh; make sim'
+# 1. Run the default baseline simulation suite
+make test
+
+# 2. Run the comprehensive Math, Multiplier, and SFU verification suite
+make test IMEM=tests/imem_math.fill DMEM=tests/dmem_math.fill EXPECTED=tests/expected_dmem_math.dump
+
+# 3. Run the Pipeline Hazard & Speculative Branch Squash test suite
+make test IMEM=tests/imem_hazard.fill DMEM=tests/dmem_hazard.fill EXPECTED=tests/expected_dmem_hazard.dump
+
+# 4. Clean simulation run artifacts and temporary dumps
+make clean
 ```
 
-The DesignWare simulation models come from `$SYNOPSYS_DC/dw/sim_ver`, which is
-`/tools/synopsys/syn/Y-2026.03/dw/sim_ver` on the vlab servers.
-
-## Make targets
-
-| Command | Action |
-|---|---|
-| `make` or `make sim` | Compile, elaborate and run `imem.fill` and `dmem.fill`. Writes `dmem.dump`. |
-| `make test` | `make sim`; the testbench also compares data memory with `expected_dmem.dump`, lists every location that differs and prints `TEST PASSED` or `TEST FAILED`. |
-| `make simg` | Run in the SimVision GUI. |
-| `make clean` | Remove all generated files. Run this before you create your tar file. |
-
-To run another program, pass the files on the command line:
-
+### Running Unit Testbenches
+Individual submodules can be compiled and verified independently:
 ```bash
-make test IMEM=tests/my_imem.fill DMEM=tests/my_dmem.fill EXPECTED=tests/my_expected.dump
+ncverilog +access+rwc tb/tb_alu.v design/alu.v                           # Verifies Vector ALU arithmetic and shift modes
+ncverilog +access+rwc tb/tb_sfu.v design/sfu.v                           # Verifies non-restoring divider and square-root modules
+ncverilog +access+rwc tb/tb_register_file.v design/register_file.v       # Verifies dual-port access and 8-lane byte write masks
+ncverilog +access+rwc tb/tb_hazard_unit.v design/hazard_unit.v           # Verifies stall and bubble injection timing
+ncverilog +access+rwc tb/tb_control_decoder.v design/control_decoder.v   # Exhaustively checks all 64 instruction opcodes
 ```
 
-Use relative paths. In the C shell, a `#` inside a path starts a comment.
-
-## Fixed top-level interface
-
-The grading testbench instantiates your processor by port name. Keep this
-header exactly as it is in `design/cardinal_cpu.v`:
-
-```verilog
-module cardinal_cpu (
-    input         clk,        // rising-edge clock
-    input         reset,      // synchronous, active high
-    input  [0:31] inst_in,    // instruction from the instruction memory
-    input  [0:63] d_in,       // load data from the data memory
-    output [0:31] pc_out,     // instruction memory address (byte address)
-    output [0:31] addr_out,   // data memory address (64-bit word address)
-    output        memEn,      // data memory enable (load or store)
-    output        memWrEn,    // data memory write enable (store)
-    output [0:63] d_out       // store data to the data memory
-);
+### Running Behavioral RTL Simulation
+To verify the whole design.
+```bash
+ncverilog +gui +access+rwc tb/tb_cardinal_cpu.v design/control_decoder.v design/register_file.v design/hazard_unit.v design/alu.v design/sfu.v design/cardinal_cpu.v +IMEM=imem.fill +DMEM=dmem.fill +EXPECTED=expected_dmem.dump
 ```
 
-- Keep this header as provided. The module name and the port names
-  (case-sensitive), directions and widths must match exactly. Do not add or
-  remove ports.
-- The testbench connects the processor by port name. If the header differs,
-  the elaboration step (`ncelab`) stops with an error, for example
-  `*E,CUVMUR` (module `cardinal_cpu` not found), `*E,CUVPOM` (port name not
-  found), `*F,CUVMPW` (port width differs) or `*F,CUVWSP` (extra port). The
-  handout penalizes such a design like code that does not compile.
-- You may add any other modules and files in `design/`. Only `cardinal_cpu` has
-  a fixed interface. The `design/register_file.v` interface is a suggestion.
-- Do not define modules named `imem`, `dmem` or `tb_cardinal_cpu` in `design/`.
-
-## Memory timing
-
-Both memory models are in `include/`.
-
-- **Instruction memory:** `inst_in = MEM[pc_out[22:29]]`. The read is
-  asynchronous, and `pc_out` is a byte address (PC + 4 per instruction).
-- **Data memory:** `memEn`, `memWrEn`, `addr_out[24:31]` and `d_out` are
-  sampled at a rising clock edge.
-  - A store (`memEn = memWrEn = 1`) is written at that edge.
-  - For a load (`memEn = 1`, `memWrEn = 0`), the data appears on `d_in` after
-    that edge, during the following cycle.
-  - `d_in` is 0 in a cycle that follows an edge where `memEn` was 0.
-
-## ISA clarifications
-
-The ISA manual and the Phase 2 slides do not cover the two points below the
-same way, or do not cover them at all. Your design is graded by these rules.
-
-### PPP field: follow the Phase 2 slides
-
-The ISA manual (Spring 2015) shows R-type bits [21:23] as `000`. The Phase 2
-slides (slides 6, 9 and 13) define these bits as the PPP (participation)
-field. Where the two documents differ, follow the slides.
-
-PPP applies to every R-type instruction. It selects which bytes of rD are
-written back; the other bytes of rD keep their old value. Byte 0 is the most
-significant byte (big-endian labeling), and the selection is always by byte,
-whatever the WW value.
-
-| PPP | Mnemonic | Bytes of rD written |
-|---|---|---|
-| 000 | a | all bytes (0-7) |
-| 001 | u | upper 32 bits (bytes 0-3) |
-| 010 | d | lower 32 bits (bytes 4-7) |
-| 011 | e | even bytes (0, 2, 4, 6) |
-| 100 | o | odd bytes (1, 3, 5, 7) |
-| 101, 110, 111 | - | reserved |
-
-- In assembly, the PPP letter comes before the WW letter, for example
-  `VADDah` or `VADDeb` (slide 15).
-- PPP = 000 is the `000WW` encoding of the ISA manual, so every encoding in the
-  manual behaves as the manual describes.
-- The reserved values 101-111 do not appear in the grading programs.
-- A partial write still makes rD a destination: an instruction that reads rD
-  afterwards must see the merged value. Handle this in your hazard logic
-  (slide 26).
-
-### Division by zero
-
-The ISA manual does not define VDIV or VMOD when a divisor is 0. The grading
-programs expect the result of the DesignWare divider `DW_div` in unsigned mode
-(`tc_mode = 0`). Division by zero appears in many grading programs, not only
-in the division tests.
-
-**Recommendation: implement VDIV and VMOD with `DW_div` (`tc_mode = 0`).** It
-produces exactly the results below with no extra logic. If you write your own
-divider, you must reproduce every rule below yourself.
-
-#### The rule
-
-The WW field splits rA and rB into subfields. Each subfield is handled on its
-own:
-
-| Divisor subfield rB_i | VDIV result | VMOD result |
-|---|---|---|
-| not 0 | rA_i / rB_i (unsigned integer division) | rA_i mod rB_i |
-| 0 | all ones: `FF`, `FFFF`, `FFFFFFFF` or `FFFFFFFFFFFFFFFF` | rA_i, unchanged |
-
-- **0 / 0:** follows the second row, so the quotient is all ones and the
-  remainder is 0.
-- **Mixed subfields:** only subfields whose divisor is 0 use the second row.
-  The other subfields of the same instruction are divided normally.
-- **WW decides what counts as 0.** With rB = `0000000300000000`, word 1 is 0
-  at WW = w, but the double-word is not 0 at WW = d.
-- **PPP** selects which bytes of the result reach rD, as for any other R-type
-  instruction.
-
-#### Example
-
-rA = `80FF7F0100FF8001`, rB = `0000000300000000`:
-
-| WW | Divisor subfields | VDIV | VMOD |
-|---|---|---|---|
-| b | `00 00 00 03 00 00 00 00` | `FFFFFF00FFFFFFFF` | `80FF7F0100FF8001` |
-| h | `0000 0003 0000 0000` | `FFFF2A55FFFFFFFF` | `80FF000200FF8001` |
-| w | `00000003 00000000` | `2AFFD500FFFFFFFF` | `0000000100FF8001` |
-| d | `0000000300000000` | `000000002AFFD500` | `0000000100FF8001` |
-
-At WW = b:
-- byte 3 is `01 / 03`: quotient `00`, remainder `01`;
-- byte 4 is `0 / 0`: quotient `FF`, remainder `00`;
-- every other byte has a zero divisor.
-
-#### Implementation notes
-
-- **Parameters:** use `tc_mode = 0` (unsigned). `rem_mode` can be 0 or 1:
-  for unsigned operands both give the same results, including division by
-  zero.
-- **Structure:** one way is to instantiate `DW_div` for each width (eight
-  8-bit, four 16-bit, two 32-bit and one 64-bit divider) and select the result
-  with WW.
-- **Multi-cycle versions:** `DW_div_seq` and `DW_div_pipe` give the same
-  values but take several cycles, so your pipeline must wait for them.
-- **Unused output:** you can leave `divide_by_0` unconnected.
-- **Avoid `/` and `%`:** do not use the Verilog operators for VDIV and VMOD.
-  In simulation, a division by zero returns X, and every memory location that
-  depends on it fails.
-- **Warnings:** the `DW_div` simulation model prints
-  `WARNING: ... Division by zero.` each time it divides by zero. This is
-  expected and harmless.
-
-## Sample program
-
-`imem.fill` is a basic sanity check that uses only a few instructions. Every
-instruction is at least three instructions after the one that writes its
-source register (VNOPs fill the gaps), so the program also runs on a pipeline
-without forwarding or stalls. It loads two operands from addresses 0 and 1 and
-stores one result per instruction:
-
-| Address | Result of |
-|---|---|
-| 2 | `VAND.d r3, r1, r2` |
-| 3 | `VOR.d r4, r1, r2` |
-| 4 | `VXOR.d r5, r1, r2` |
-| 5 | `VNOT.d r6, r1` |
-| 6 | `VMOV.d r7, r2` |
-| 7, 8, 9, 10 | `VADD` with WW = b, h, w, d |
-| 11, 12 | `VSUB` with WW = b, d |
-
-Passing it shows that fetch, decode, the register file, a few ALU operations,
-VLD and VSD work. It does not test the other instructions, the other operand
-widths, data hazards or branches. Write your own programs for those
-(handout item 4).
-
-## Writing programs
-
-- **`imem.fill`:** one 32-bit hexadecimal instruction per line, at most 256
-  lines. Comment every instruction with its assembly mnemonic after `//`. The
-  last instruction must be `00000000` (end of program). `F0000000` is VNOP.
-- **`dmem.fill`:** one 64-bit hexadecimal word per line.
-- **Branch targets** are byte addresses. For example, the instruction at line
-  index 4 has address 16 (`0x0010`).
-
-The testbench runs your program as follows:
-
-1. Holds reset for 5 cycles.
-2. Runs until the processor fetches `00000000`, or for at most 5000 cycles.
-3. Waits 5 more cycles so the pipeline can drain.
-4. Prints the cycle count.
-5. Writes data memory locations 0-127 to `dmem.dump`.
-6. For `make test` (`+EXPECTED=<file>`), compares data memory with the
-   expected dump and lists every location that differs.
-
-`CYCLE_TIME` at the top of the testbench sets the clock period (4 ns).
-
-## Grading
-
-The TAs grade your design with a separate testbench and a larger set of
-programs. That testbench uses the same `cardinal_cpu` instance, memory models,
-clock, 5-cycle reset, end-of-program rule (stop at the `00000000` fetch, then
-5 drain cycles) and 5000-cycle limit as `tb/tb_cardinal_cpu.v`.
-
-- The programs cover every instruction at every legal WW, VLD and VSD, VNOP
-  and illegal instructions, register 0, VBEZ and VBNEZ (taken, not taken, and
-  the flushed instruction after a taken branch), and data dependencies
-  between nearby instructions.
-- After each program, the testbench compares the data memory with the
-  expected contents.
-- The programs run back to back in one simulation, and the processor is reset
-  before each one. Reset must clear all processor state: the PC, every
-  pipeline register and the register file (handout item 3a).
-
-Keep the testbench and the memory models unchanged.
-
-## DesignWare components
-
-The makefile compiles the DesignWare simulation models listed in
-`DW_COMPONENTS` (`DW_div DW_sqrt DW02_mult DW01_addsub`). If you instantiate
-another component, add it to that list.
-
-For VDIV and VMOD, use `DW_div`. It gives the division-by-zero results that
-the grading programs expect (see "Division by zero").
-
-Alternatively, you can `` `include `` a model in your RTL with its full path,
-for example:
-
-```verilog
-`include "/tools/synopsys/syn/Y-2026.03/dw/sim_ver/DW_div.v"
+### Running Gate-Level Simulations
+To verify the synthesized netlist with annotated standard cell models:
+```bash
+ncverilog +gui +access+rwc tb/tb_cardinal_cpu.v include/gscl45nm.v netlist/cardinal_cpu.syn.v +IMEM=imem.fill +DMEM=dmem.fill +EXPECTED=expected_dmem.dump
 ```
+*(Configured with `CYCLE_TIME = 20 ns` to satisfy the $13.81\,\text{ns}$ combinational SFU delay path).*
 
-The old `/usr/local/synopsys/...` paths from earlier semesters do not exist on
-the vlab servers.
+---
 
-## Submission
+## Authors & Acknowledgments
 
-Follow the Phase 2 handout:
-
-1. Run `make clean`.
-2. Make sure this directory contains only the requested files: your design, the
-   testbench, and the `.fill` programs with mnemonic comments. Do not include
-   waveform or log files.
+**Course**: *EE577B - VLSI System Design, University of Southern California (USC)* 
+**Author**: [Kevelyn Lin](https://github.com/WanYing1224), [Yuxiang Luo](https://github.com/lllyxxxx)
